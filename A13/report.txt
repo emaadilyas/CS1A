@@ -1,0 +1,5 @@
+Scores read: 5
+Total: 433
+Average: 86.60
+Highest Score: 92
+Lowest Score: 78
