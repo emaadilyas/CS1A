@@ -1,8 +1,8 @@
-/* ==========================================================================================
+/* ===============================================================================================
 
 	Programmer:            Emaad Ilyas
 	Course:                CS1A Intro to Compsci I w/ C++
-	Assignment:            LAb SP4 - Serendipity Main Menu Screen
+	Assignment:            LAb SP5 - Serendipity Main Menu Screen
 	Date Written:          2026-07-01
 	Date Due:              2026-07-08
 	Instructor:            Jeffery Barnett
@@ -10,79 +10,376 @@
 	Purpose:               Display the Serendipity Booksellers Main Menu screen
 	                       formatted with iomanip maniuplators. Includes a switch with a
 								  case to give an output depending on the input that the user puts
-								  either changing their location or presenting with an error message
-============================================================================================ */
+								  either changing their location or presenting with an error message.
 
-// basic inclusions
-#include <iostream>
-#include <iomanip>
-#include <string>
-using namespace std;
+=============================================================================================== */
 
-//color constant variables
-const string BOX_COLOR = "\033[1;32m"; // bold green
-const string RESET = "\033[0m"; //resets the box
-const string BOLD = "\033[1m";
-const string ORANGE = "\033[33m";
-const string EXIT_RED = "\033[31m";
+// include serendipity.h which has all of the inclusions and constants
+#include "serendipity.h"
 
-// main function
+// ---------------------------|Main Function: Mainmenu|--------------------------- //
 int main()
 {
+	char choice; // variable user will input to chose where to move
 
-	int choice; // variable user will input to chose where to move
-
-	// ASCII border box & menu top border
-	cout << '+' << right << setfill('=') << setw(79) << '+' << setfill(' ') << endl;
-	cout << '|' << left << setw(78) << "" << '|' << endl;
-	// main title for the store
-	cout << '|' << right << ORANGE << setw(50) << "Serendipity Booksellers" << RESET << setw(29) << '|' << endl;
-	// subtitle showing what part the user is in
-	cout << '|' << right << BOLD << setw(43) << "Main Menu" << RESET << setw(36) << '|' << endl;
-
-	cout << '|' << left << setw(78) << "" << '|' << endl;
-	// Choice module text
-	cout << '|' << left << left << setw(78) << "      1. Cashier Module" << '|' << endl;
-	cout << '|' << left << left << setw(78) << "      2. Inventory Database Module" << '|' << endl;
-	cout << '|' << left << left << setw(78) << "      3. Report Module" << '|' << endl;
-	cout << '|' << left << left << EXIT_RED << setw(78) << "      4. Exit" << RESET << '|' << endl;
-	// border
-	cout << '|' << left << setw(78) << "" << '|' << endl;
-	// more choice
-	cout << '|' << left << left << setw(78) << "      Enter your choice: "<< '|' << endl;
-	// rest of the border
-	cout << '|' << left << setw(78) << "" << '|' << endl;
-	cout << '+' << right << setfill('=') << setw(79) << '+' << setfill(' ') << endl;
-
-	// the user enter area
-	cout << "Enter your choice: ";
-	cin >> choice; // asks the user for their choice
-
-	// ensuring to flush the buffer if the user inputs a bad input
-	if (cin.fail())
+	do
 	{
-		cin.clear();
-		cin.ignore(1000, '\n');
+		cout << CLEAR_SCREEN;
+		// ASCII border box & menu top border
+		cout << '+' << right << setfill('=') << setw(79) << '+' << setfill(' ') << endl;
+		cout << '|' << left << setw(78) << "" << '|' << endl;
+		// main title for the store
+		cout << '|' << right << ORANGE << setw(50) << "Serendipity Booksellers" << RESET << setw(29) << '|' << endl;
+		// subtitle showing what part the user is in
+		cout << '|' << right << BOLD << setw(43) << "Main Menu" << RESET << setw(36) << '|' << endl;
+
+		cout << '|' << left << setw(78) << "" << '|' << endl;
+		// Choice module text
+		cout << '|' << left << left << setw(78) << "      1. Cashier Module" << '|' << endl;
+		cout << '|' << left << left << setw(78) << "      2. Inventory Database Module" << '|' << endl;
+		cout << '|' << left << left << setw(78) << "      3. Report Module" << '|' << endl;
+		cout << '|' << left << left << EXIT_RED << setw(78) << "      4. Exit" << RESET << '|' << endl;
+		// border
+		cout << '|' << left << setw(78) << "" << '|' << endl;
+		// more choice
+		cout << '|' << left << setw(6) << "      Enter your choice: "<< "\033[s" << right << setw(54) << '|' << endl;
+		// rest of the border
+		cout << '|' << left << setw(78) << "" << '|' << endl;
+		cout << '+' << right << setfill('=') << setw(79) << '+' << setfill(' ') << endl;
+
+		// the user enter area
+		cout << "\033[u";
+		cin.get(choice); // this was here since of a bug where if you just typed enter when the program runs nothing would happen and you would go to a newline
+		if (choice != '\n')
+		{
+			cin.ignore(1000, '\n');
+		}
+		cout << "\033[2B";
+
+		switch (choice) // switch based on what the user responded
+		{
+			case '1':
+				//cout << ">> Cashier Module selected. [stub - coming later]" << endl;
+				cashier();
+				break;
+			case '2':
+				//cout << ">> Inventory Database Module selected. [stub - coming later]" << endl;
+				invMenu();
+				break;
+			case '3':
+				//cout << ">> Report Module selected. [stub - coming later]" << endl;
+				reports();
+				break;
+			case '4':
+				cout << ">> Exiting Serendipity." << endl;
+				break;
+			case '\n':
+				cout << "You entered nothing" << endl;
+				cout << "Press ENTER to continue ..." << endl;
+				cin.ignore();
+			default: // default case for if they responded with a non useable input
+				cout << "Invalid choice ***" << EXIT_RED << choice << RESET << "***." << endl;
+				cout << "Please enter 1-4." << endl;
+				cout << "Press ENTER to continue ..." << endl;
+				cin.ignore();
+		}
 	}
-
-	switch (choice) // switch based on what the user responded
-	{
-		case 1:
-			cout << ">> Cashier Module selected. [stub - coming later]" << endl;
-			break;
-		case 2:
-			cout << ">> Inventory Database Module selected. [stub - coming later]" << endl;
-			break;
-		case 3:
-			cout << ">> Report Module selected. [stub - coming later]" << endl;
-			break;
-		case 4:
-			cout << ">> Exiting Serendipity." << endl;
-			break;
-		default: // default case for if they responded with a non useable input
-			cout << "Invalid Option. Please enter a number 1-4." << endl;
-
-	}
-
+	while (choice != '4');
 	return 0;
+}
+
+// ---------------------------|Function: Cashier|--------------------------- //
+void cashier() {
+
+	cout << endl;
+	// declaring constants and variables the user will input
+	string saleDate;                 // the date of the sale (MM-DD-YYYY)
+	int quantity;                    // the number of quantities sold (integer becuase it's a whole num)
+	string isbn;                     // International Standard Book Number (no spaces)
+	string bookTitle;                // Title of the book (Ex: The Hobbit)
+	double retailPrice;              // The retail price of the book (the money cost)
+
+	// requesting the variables
+	cout << "Date (MM-DD-YYYY): ";
+	getline(cin, saleDate);
+
+	cout << "Book Title: ";
+	getline(cin, bookTitle);
+
+	cout << "Enter the ISBN: ";
+	cin >> isbn;
+	cin.ignore(1000, '\n'); // flushes the buffer left by the cin
+
+	cout << "Enter Quantity: ";
+	cin >> quantity;
+
+	cout << "Enter Price: ";
+	cin >> retailPrice;
+	cin.ignore(1000, '\n');
+
+	// doing the math for the receipt to print
+	double lineTotal = quantity * retailPrice;
+	double salesTax = lineTotal * TAX_RATE;
+	double total = lineTotal + salesTax;
+
+	// printing the receipt
+	cout << CLEAR_SCREEN;
+	cout << ORANGE << "Serendipity Book Sellers" << RESET << endl;
+	cout << endl;
+
+	cout << "Date: " << saleDate << endl;
+	cout << endl;
+
+	// printing the main receipt
+	cout << left << setw(4) << "Qty" << setw(15) << "ISBN" << setw(23) << "Title" << setw(9) << "Price" << "Total" << endl;
+	cout << setfill('_') << setw(59) << "" << setfill(' ') << endl;
+	cout << fixed << setprecision(2);
+	cout << left << setw(4) << quantity << setw(15) << isbn << setw(23) << bookTitle << "$" << setw(8) << retailPrice << "$" << lineTotal << endl;
+	cout << endl;
+
+	cout << "	" << left << setw(11) << "Subtotal" << "$" << setw(6) << right << lineTotal << endl;
+	cout << "	" << left << setw(11) << "Tax" << "$" << setw(6) << right << salesTax << endl;
+	cout << "	" << left << setw(11) << "Total" << "$" << setw(6) << right << total << endl;
+
+	cout << endl;
+	cout << GREEN << "Thank You for Shopping at Serendipity!" << RESET << endl;
+	cout << endl;
+	cout << "Press ENTER to continue..." << endl;
+	cin.ignore();
+}
+
+// ---------------------------|Function: Inventory Menu|--------------------------- //
+void invMenu()
+{
+	char choice;
+	do
+	{
+		cout << CLEAR_SCREEN;
+		// ASCII border box & menu top border
+		cout << '+' << right << setfill('=') << setw(79) << '+' << setfill(' ') << endl;
+		cout << '|' << left << setw(78) << "" << '|' << endl;
+		// main title for the store
+		cout << '|' << right << ORANGE << setw(50) << "Serendipity Booksellers" << RESET << setw(29) << '|' << endl;
+		// subtitle showing what part the user is in
+		cout << '|' << right << BOLD << setw(48) << "Inventory Database" << RESET << setw(31) << '|' << endl;
+
+		cout << '|' << left << setw(78) << "" << '|' << endl;
+		// Choice module text
+		cout << '|' << left << left << setw(78) << "      1. Look Up a Book" << '|' << endl;
+		cout << '|' << left << left << setw(78) << "      2. Add a Book" << '|' << endl;
+		cout << '|' << left << left << setw(78) << "      3. Edit a Book's Record" << '|' << endl;
+		cout << '|' << left << left << setw(78) << "      4. Delete a Book" << '|' << endl;
+		cout << '|' << left << left << setw(78) << "      5. Return to the Main Menu" << '|' << endl;
+		// border
+		cout << '|' << left << setw(78) << "" << '|' << endl;
+		// more choice
+		cout << '|' << left << setw(6) << "      Enter Your Choice: " << "\033[s" << right << setw(54) << 	'|' << endl;
+		// rest of the border
+		cout << '|' << left << setw(78) << "" << '|' << endl;
+		cout << '+' << right << setfill('=') << setw(79) << '+' << setfill(' ') << endl;
+
+		cout << "\033[u";
+		cin >> choice;
+		cin.ignore(1000, '\n');
+		cout << "\033[2B";
+
+		switch (choice)
+		{
+			case '1':
+				lookUpBook();
+				break;
+			case '2':
+				addBook();
+				break;
+			case '3':
+				editBook();
+				break;
+			case '4':
+				deleteBook();
+				break;
+			case '5':
+				cout << ">> Returning to Main Menu..." << endl;
+				cout << "Press ENTER to continue..." << endl;
+				cin.ignore();
+				break;
+			default:
+				cout << "Invalid choice ***" << EXIT_RED << choice << RESET << "***." << endl;
+				cout << "Please enter 1-5." << endl;
+				cout << "Press ENTER to continue ..." << endl;
+				cin.ignore();
+		}
+	}
+	while (choice != '5');
+}
+
+// ---------------------------|Function: Reports|--------------------------- //
+void reports()
+{
+	char choice;
+	do
+	{
+		cout << CLEAR_SCREEN;
+		// ASCII border box & menu top border
+		cout << '+' << right << setfill('=') << setw(79) << '+' << setfill(' ') << endl;
+		cout << '|' << left << setw(78) << "" << '|' << endl;
+		// main title for the store
+		cout << '|' << right << ORANGE << setw(50) << "Serendipity Booksellers" << RESET << setw(29) << '|' << endl;
+		// subtitle showing what part the user is in
+		cout << '|' << right << BOLD << setw(42) << "Reports" << RESET << setw(37) << '|' << endl;
+
+		cout << '|' << left << setw(78) << "" << '|' << endl;
+		// Choice module text
+		cout << '|' << left << left << setw(78) << "      1. Inventory Listing" << '|' << endl;
+		cout << '|' << left << left << setw(78) << "      2. Inventory Wholesale Value" << '|' << endl;
+		cout << '|' << left << left << setw(78) << "      3. Inventory Retail Value" << '|' << endl;
+		cout << '|' << left << left << setw(78) << "      4. Listing by Quantity" << '|' << endl;
+		cout << '|' << left << left << setw(78) << "      5. Listing by Cost" << '|' << endl;
+		cout << '|' << left << left << setw(78) << "      6. Listing by Age" << '|' << endl;
+		cout << '|' << left << left << setw(78) << "      7. Return to the Main Menu" << '|' << endl;
+		// border
+		cout << '|' << left << setw(78) << "" << '|' << endl;
+		// more choice
+		cout << '|' << left << setw(6) << "      Enter Your Choice: " << "\033[s" << right << setw(54) << '|' << endl;
+		// rest of the border
+		cout << '|' << left << setw(78) << "" << '|' << endl;
+		cout << '+' << right << setfill('=') << setw(79) << '+' << setfill(' ') << endl;
+
+		cout << "\033[u";
+		cin >> choice;
+		cin.ignore(1000, '\n');
+		cout << "\033[2B";
+
+		switch (choice)
+		{
+			case '1':
+				repListing();
+				break;
+			case '2':
+				repWholesale();
+				break;
+			case '3':
+				repRetail();
+				break;
+			case '4':
+				repQty();
+				break;
+			case '5':
+				repCost();
+				break;
+			case '6':
+				repAge();
+				break;
+			case '7':
+				cout << ">> Returning to Main Menu..." << endl;
+				cout << "Press ENTER to continue..." << endl;
+				cin.ignore();
+				break;
+			default:
+				cout << "Invalid choice ***" << EXIT_RED << choice << RESET << "***." << endl;
+				cout << "Please enter 1-7." << endl;
+				cout << "Press ENTER to continue ..." << endl;
+				cin.ignore();
+		}
+	}
+	while (choice != '7');
+}
+
+// ---------------------------|Function: Bookinfo|--------------------------- //
+void bookInfo()
+{
+	cout << " " << ORANGE << setw(36) << "Serendipity Booksellers" << RESET << endl;
+	cout << " " << BOLD << setw(31) << "Book Information" << RESET << endl;
+	cout << endl;
+	cout << " " << left << setw(20) << "ISBN:" << endl;
+	cout << " " << left << setw(20) << "Title:" << endl;
+	cout << " " << left << setw(20) << "Author:" << endl;
+	cout << " " << left << setw(20) << "Publisher:" << endl;
+	cout << " " << left << setw(20) << "Date Added:" << endl;
+	cout << " " << left << setw(20) << "Quantity-On-Hand:" << endl;
+	cout << " " << left << setw(20) << "Wholesale Cost:" << endl;
+	cout << " " << left << setw(20) << "Retail Price:" << endl;
+}
+
+// ---------------------------|Function: invmenu() Stubs|--------------------------- //
+
+void lookUpBook()
+{
+	cout << CLEAR_SCREEN;
+	cout << "You selected Look Up Book" << endl;
+	cout << "Press ENTER to continue..." << endl;
+	cin.ignore();
+}
+
+void addBook()
+{
+	cout << CLEAR_SCREEN;
+	cout << "You selected Add Book" << endl;
+	cout << "Press ENTER to continue..." << endl;
+	cin.ignore();
+}
+
+void editBook()
+{
+	cout << CLEAR_SCREEN;
+	cout << "You selected Edit Book" << endl;
+	cout << "Press ENTER to continue..." << endl;
+	cin.ignore();
+}
+
+void deleteBook()
+{
+	cout << CLEAR_SCREEN;
+	cout << "You selected Delete Book" << endl;
+	cout << "Press ENTER to continue..." << endl;
+	cin.ignore();
+}
+
+// ---------------------------|Function: reports() Stubs|--------------------------- //
+
+void repListing()
+{
+	cout << CLEAR_SCREEN;
+	cout << "You selected Inventory Listing" << endl;
+	cout << "Press ENTER to continue..." << endl;
+	cin.ignore();
+}
+
+void repWholesale()
+{
+	cout << CLEAR_SCREEN;
+	cout << "You selected Inventory Wholesale Value" << endl;
+	cout << "Press ENTER to continue..." << endl;
+	cin.ignore();
+}
+
+void repRetail()
+{
+	cout << CLEAR_SCREEN;
+	cout << "You selected Inventory Retail Value" << endl;
+	cout << "Press ENTER to continue..." << endl;
+	cin.ignore();
+}
+
+void repQty()
+{
+	cout << CLEAR_SCREEN;
+	cout << "You selected Listing By Quantity" << endl;
+	cout << "Press ENTER to continue..." << endl;
+	cin.ignore();
+}
+
+void repCost()
+{
+	cout << CLEAR_SCREEN;
+	cout << "You selected Listing By Cost" << endl;
+	cout << "Press ENTER to continue..." << endl;
+	cin.ignore();
+}
+
+void repAge()
+{
+	cout << CLEAR_SCREEN;
+	cout << "You selected Listing By age" << endl;
+	cout << "Press ENTER to continue..." << endl;
+	cin.ignore();
 }
