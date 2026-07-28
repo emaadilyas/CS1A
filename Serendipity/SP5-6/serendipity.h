@@ -5,7 +5,7 @@
 	Assignment:     SP5-6 header
 	Date Written:   2026-07-28
 	Date Due:       2026-07-29
-	Instructor:     Dr. Jefferey Barnett
+	Instructor:     Dr. Jeffrey Barnett
 
 	Purpose:        This file will have every single #include lines, global
 						 constant, function prototypes, and with their own header
@@ -25,7 +25,6 @@ using namespace std;
 // named constants
 const int NUM_COLS = 80;
 const string CLEAR_SCREEN = "\033[2J\033[1;1H";
-const string BOX_COLOR = "\033[1;32m"; // bold green
 const string RESET = "\033[0m"; //resets the box
 const string BOLD = "\033[1m";
 const string ORANGE = "\033[33m";

@@ -5,7 +5,7 @@
 	Assignment:            LAb SP5 - Serendipity Main Menu Screen
 	Date Written:          2026-07-01
 	Date Due:              2026-07-08
-	Instructor:            Jeffery Barnett
+	Instructor:            Jeffrey Barnett
 
 	Purpose:               Display the Serendipity Booksellers Main Menu screen
 	                       formatted with iomanip maniuplators. Includes a switch with a
@@ -26,26 +26,26 @@ int main()
 	{
 		cout << CLEAR_SCREEN;
 		// ASCII border box & menu top border
-		cout << '+' << right << setfill('=') << setw(79) << '+' << setfill(' ') << endl;
-		cout << '|' << left << setw(78) << "" << '|' << endl;
+		cout << '+' << right << setfill('=') << setw(NUM_COLS - 1) << '+' << setfill(' ') << endl;
+		cout << '|' << left << setw(NUM_COLS - 2) << "" << '|' << endl;
 		// main title for the store
-		cout << '|' << right << ORANGE << setw(50) << "Serendipity Booksellers" << RESET << setw(29) << '|' << endl;
+		cout << '|' << right << ORANGE << setw(NUM_COLS - 30) << "Serendipity Booksellers" << RESET << setw(NUM_COLS - 51) << '|' << endl;
 		// subtitle showing what part the user is in
-		cout << '|' << right << BOLD << setw(43) << "Main Menu" << RESET << setw(36) << '|' << endl;
+		cout << '|' << right << BOLD << setw(NUM_COLS - 37) << "Main Menu" << RESET << setw(NUM_COLS - 44) << '|' << endl;
 
-		cout << '|' << left << setw(78) << "" << '|' << endl;
+		cout << '|' << left << setw(NUM_COLS - 2) << "" << '|' << endl;
 		// Choice module text
-		cout << '|' << left << left << setw(78) << "      1. Cashier Module" << '|' << endl;
-		cout << '|' << left << left << setw(78) << "      2. Inventory Database Module" << '|' << endl;
-		cout << '|' << left << left << setw(78) << "      3. Report Module" << '|' << endl;
-		cout << '|' << left << left << EXIT_RED << setw(78) << "      4. Exit" << RESET << '|' << endl;
+		cout << '|' << left << left << setw(NUM_COLS - 2) << "      1. Cashier Module" << '|' << endl;
+		cout << '|' << left << left << setw(NUM_COLS - 2) << "      2. Inventory Database Module" << '|' << endl;
+		cout << '|' << left << left << setw(NUM_COLS - 2) << "      3. Report Module" << '|' << endl;
+		cout << '|' << left << left << EXIT_RED << setw(NUM_COLS - 2) << "      4. Exit" << RESET << '|' << endl;
 		// border
-		cout << '|' << left << setw(78) << "" << '|' << endl;
+		cout << '|' << left << setw(NUM_COLS - 2) << "" << '|' << endl;
 		// more choice
-		cout << '|' << left << setw(6) << "      Enter your choice: "<< "\033[s" << right << setw(54) << '|' << endl;
+		cout << '|' << left << setw(NUM_COLS - 74) << "      Enter your choice: "<< "\033[s" << right << setw(NUM_COLS - 26) << '|' << endl;
 		// rest of the border
-		cout << '|' << left << setw(78) << "" << '|' << endl;
-		cout << '+' << right << setfill('=') << setw(79) << '+' << setfill(' ') << endl;
+		cout << '|' << left << setw(NUM_COLS - 2) << "" << '|' << endl;
+		cout << '+' << right << setfill('=') << setw(NUM_COLS - 1) << '+' << setfill(' ') << endl;
 
 		// the user enter area
 		cout << "\033[u";
@@ -59,29 +59,30 @@ int main()
 		switch (choice) // switch based on what the user responded
 		{
 			case '1':
-				//cout << ">> Cashier Module selected. [stub - coming later]" << endl;
 				cashier();
 				break;
 			case '2':
-				//cout << ">> Inventory Database Module selected. [stub - coming later]" << endl;
 				invMenu();
 				break;
 			case '3':
-				//cout << ">> Report Module selected. [stub - coming later]" << endl;
 				reports();
 				break;
 			case '4':
+				cout << CLEAR_SCREEN;
 				cout << ">> Exiting Serendipity." << endl;
 				break;
 			case '\n':
+				cout << CLEAR_SCREEN;
 				cout << "You entered nothing" << endl;
 				cout << "Press ENTER to continue ..." << endl;
 				cin.ignore();
+				break;
 			default: // default case for if they responded with a non useable input
+				cout << CLEAR_SCREEN;
 				cout << "Invalid choice ***" << EXIT_RED << choice << RESET << "***." << endl;
 				cout << "Please enter 1-4." << endl;
 				cout << "Press ENTER to continue ..." << endl;
-				cin.ignore();
+				cin.ignore(1000, '\n');
 		}
 	}
 	while (choice != '4');
@@ -91,6 +92,7 @@ int main()
 // ---------------------------|Function: Cashier|--------------------------- //
 void cashier() {
 
+	cout << CLEAR_SCREEN;
 	cout << endl;
 	// declaring constants and variables the user will input
 	string saleDate;                 // the date of the sale (MM-DD-YYYY)
@@ -145,7 +147,7 @@ void cashier() {
 	cout << GREEN << "Thank You for Shopping at Serendipity!" << RESET << endl;
 	cout << endl;
 	cout << "Press ENTER to continue..." << endl;
-	cin.ignore();
+	cin.ignore(1000, '\n');
 }
 
 // ---------------------------|Function: Inventory Menu|--------------------------- //
@@ -156,31 +158,36 @@ void invMenu()
 	{
 		cout << CLEAR_SCREEN;
 		// ASCII border box & menu top border
-		cout << '+' << right << setfill('=') << setw(79) << '+' << setfill(' ') << endl;
-		cout << '|' << left << setw(78) << "" << '|' << endl;
+		cout << '+' << right << setfill('=') << setw(NUM_COLS - 1) << '+' << setfill(' ') << endl;
+		cout << '|' << left << setw(NUM_COLS - 2) << "" << '|' << endl;
 		// main title for the store
-		cout << '|' << right << ORANGE << setw(50) << "Serendipity Booksellers" << RESET << setw(29) << '|' << endl;
+		cout << '|' << right << ORANGE << setw(NUM_COLS - 30) << "Serendipity Booksellers" << RESET << setw(NUM_COLS - 51) << '|' << endl;
 		// subtitle showing what part the user is in
-		cout << '|' << right << BOLD << setw(48) << "Inventory Database" << RESET << setw(31) << '|' << endl;
+		cout << '|' << right << BOLD << setw(NUM_COLS - 32) << "Inventory Database" << RESET << setw(NUM_COLS - 49) << '|' << endl;
 
-		cout << '|' << left << setw(78) << "" << '|' << endl;
+		cout << '|' << left << setw(NUM_COLS - 2) << "" << '|' << endl;
 		// Choice module text
-		cout << '|' << left << left << setw(78) << "      1. Look Up a Book" << '|' << endl;
-		cout << '|' << left << left << setw(78) << "      2. Add a Book" << '|' << endl;
-		cout << '|' << left << left << setw(78) << "      3. Edit a Book's Record" << '|' << endl;
-		cout << '|' << left << left << setw(78) << "      4. Delete a Book" << '|' << endl;
-		cout << '|' << left << left << setw(78) << "      5. Return to the Main Menu" << '|' << endl;
+		cout << '|' << left << left << setw(NUM_COLS - 2) << "      1. Look Up a Book" << '|' << endl;
+		cout << '|' << left << left << setw(NUM_COLS - 2) << "      2. Add a Book" << '|' << endl;
+		cout << '|' << left << left << setw(NUM_COLS - 2) << "      3. Edit a Book's Record" << '|' << endl;
+		cout << '|' << left << left << setw(NUM_COLS - 2) << "      4. Delete a Book" << '|' << endl;
+		cout << '|' << left << left << setw(NUM_COLS - 2) << "      5. Return to the Main Menu" << '|' << endl;
 		// border
-		cout << '|' << left << setw(78) << "" << '|' << endl;
+		cout << '|' << left << setw(NUM_COLS - 2) << "" << '|' << endl;
 		// more choice
-		cout << '|' << left << setw(6) << "      Enter Your Choice: " << "\033[s" << right << setw(54) << 	'|' << endl;
+		cout << '|' << left << setw(NUM_COLS - 74) << "      Enter Your Choice: " << "\033[s" << right << setw(NUM_COLS - 26) << '|' << endl;
 		// rest of the border
-		cout << '|' << left << setw(78) << "" << '|' << endl;
-		cout << '+' << right << setfill('=') << setw(79) << '+' << setfill(' ') << endl;
+		cout << '|' << left << setw(NUM_COLS - 2) << "" << '|' << endl;
+		cout << '+' << right << setfill('=') << setw(NUM_COLS - 1) << '+' << setfill(' ') << endl;
 
 		cout << "\033[u";
-		cin >> choice;
-		cin.ignore(1000, '\n');
+		cin.get(choice);
+
+		if (choice != '\n')
+		{
+			cin.ignore(1000, '\n');
+		}
+
 		cout << "\033[2B";
 
 		switch (choice)
@@ -198,15 +205,17 @@ void invMenu()
 				deleteBook();
 				break;
 			case '5':
+				cout << CLEAR_SCREEN;
 				cout << ">> Returning to Main Menu..." << endl;
 				cout << "Press ENTER to continue..." << endl;
-				cin.ignore();
+				cin.ignore(1000, '\n');
 				break;
 			default:
+				cout << CLEAR_SCREEN;
 				cout << "Invalid choice ***" << EXIT_RED << choice << RESET << "***." << endl;
 				cout << "Please enter 1-5." << endl;
 				cout << "Press ENTER to continue ..." << endl;
-				cin.ignore();
+				cin.ignore(1000, '\n');
 		}
 	}
 	while (choice != '5');
@@ -220,33 +229,38 @@ void reports()
 	{
 		cout << CLEAR_SCREEN;
 		// ASCII border box & menu top border
-		cout << '+' << right << setfill('=') << setw(79) << '+' << setfill(' ') << endl;
-		cout << '|' << left << setw(78) << "" << '|' << endl;
+		cout << '+' << right << setfill('=') << setw(NUM_COLS - 1) << '+' << setfill(' ') << endl;
+		cout << '|' << left << setw(NUM_COLS - 2) << "" << '|' << endl;
 		// main title for the store
-		cout << '|' << right << ORANGE << setw(50) << "Serendipity Booksellers" << RESET << setw(29) << '|' << endl;
+		cout << '|' << right << ORANGE << setw(NUM_COLS - 30) << "Serendipity Booksellers" << RESET << setw(NUM_COLS - 51) << '|' << endl;
 		// subtitle showing what part the user is in
-		cout << '|' << right << BOLD << setw(42) << "Reports" << RESET << setw(37) << '|' << endl;
+		cout << '|' << right << BOLD << setw(NUM_COLS - 38) << "Reports" << RESET << setw(NUM_COLS - 43) << '|' << endl;
 
-		cout << '|' << left << setw(78) << "" << '|' << endl;
+		cout << '|' << left << setw(NUM_COLS - 2) << "" << '|' << endl;
 		// Choice module text
-		cout << '|' << left << left << setw(78) << "      1. Inventory Listing" << '|' << endl;
-		cout << '|' << left << left << setw(78) << "      2. Inventory Wholesale Value" << '|' << endl;
-		cout << '|' << left << left << setw(78) << "      3. Inventory Retail Value" << '|' << endl;
-		cout << '|' << left << left << setw(78) << "      4. Listing by Quantity" << '|' << endl;
-		cout << '|' << left << left << setw(78) << "      5. Listing by Cost" << '|' << endl;
-		cout << '|' << left << left << setw(78) << "      6. Listing by Age" << '|' << endl;
-		cout << '|' << left << left << setw(78) << "      7. Return to the Main Menu" << '|' << endl;
+		cout << '|' << left << left << setw(NUM_COLS - 2) << "      1. Inventory Listing" << '|' << endl;
+		cout << '|' << left << left << setw(NUM_COLS - 2) << "      2. Inventory Wholesale Value" << '|' << endl;
+		cout << '|' << left << left << setw(NUM_COLS - 2) << "      3. Inventory Retail Value" << '|' << endl;
+		cout << '|' << left << left << setw(NUM_COLS - 2) << "      4. Listing by Quantity" << '|' << endl;
+		cout << '|' << left << left << setw(NUM_COLS - 2) << "      5. Listing by Cost" << '|' << endl;
+		cout << '|' << left << left << setw(NUM_COLS - 2) << "      6. Listing by Age" << '|' << endl;
+		cout << '|' << left << left << setw(NUM_COLS - 2) << "      7. Return to the Main Menu" << '|' << endl;
 		// border
-		cout << '|' << left << setw(78) << "" << '|' << endl;
+		cout << '|' << left << setw(NUM_COLS - 2) << "" << '|' << endl;
 		// more choice
-		cout << '|' << left << setw(6) << "      Enter Your Choice: " << "\033[s" << right << setw(54) << '|' << endl;
+		cout << '|' << left << setw(NUM_COLS - 74) << "      Enter Your Choice: " << "\033[s" << right << setw(NUM_COLS - 26) << '|' << endl;
 		// rest of the border
-		cout << '|' << left << setw(78) << "" << '|' << endl;
-		cout << '+' << right << setfill('=') << setw(79) << '+' << setfill(' ') << endl;
+		cout << '|' << left << setw(NUM_COLS - 2) << "" << '|' << endl;
+		cout << '+' << right << setfill('=') << setw(NUM_COLS - 1) << '+' << setfill(' ') << endl;
 
 		cout << "\033[u";
-		cin >> choice;
-		cin.ignore(1000, '\n');
+		cin.get(choice);
+
+		if (choice != '\n')
+		{
+			cin.ignore(1000, '\n');
+		}
+
 		cout << "\033[2B";
 
 		switch (choice)
@@ -270,15 +284,17 @@ void reports()
 				repAge();
 				break;
 			case '7':
+				cout << CLEAR_SCREEN;
 				cout << ">> Returning to Main Menu..." << endl;
 				cout << "Press ENTER to continue..." << endl;
-				cin.ignore();
+				cin.ignore(1000, '\n');
 				break;
 			default:
+				cout << CLEAR_SCREEN;
 				cout << "Invalid choice ***" << EXIT_RED << choice << RESET << "***." << endl;
 				cout << "Please enter 1-7." << endl;
 				cout << "Press ENTER to continue ..." << endl;
-				cin.ignore();
+				cin.ignore(1000, '\n');
 		}
 	}
 	while (choice != '7');
@@ -307,7 +323,7 @@ void lookUpBook()
 	cout << CLEAR_SCREEN;
 	cout << "You selected Look Up Book" << endl;
 	cout << "Press ENTER to continue..." << endl;
-	cin.ignore();
+	cin.ignore(1000, '\n');
 }
 
 void addBook()
@@ -315,7 +331,7 @@ void addBook()
 	cout << CLEAR_SCREEN;
 	cout << "You selected Add Book" << endl;
 	cout << "Press ENTER to continue..." << endl;
-	cin.ignore();
+	cin.ignore(1000, '\n');
 }
 
 void editBook()
@@ -323,7 +339,7 @@ void editBook()
 	cout << CLEAR_SCREEN;
 	cout << "You selected Edit Book" << endl;
 	cout << "Press ENTER to continue..." << endl;
-	cin.ignore();
+	cin.ignore(1000, '\n');
 }
 
 void deleteBook()
@@ -331,7 +347,7 @@ void deleteBook()
 	cout << CLEAR_SCREEN;
 	cout << "You selected Delete Book" << endl;
 	cout << "Press ENTER to continue..." << endl;
-	cin.ignore();
+	cin.ignore(1000, '\n');
 }
 
 // ---------------------------|Function: reports() Stubs|--------------------------- //
@@ -341,7 +357,7 @@ void repListing()
 	cout << CLEAR_SCREEN;
 	cout << "You selected Inventory Listing" << endl;
 	cout << "Press ENTER to continue..." << endl;
-	cin.ignore();
+	cin.ignore(1000, '\n');
 }
 
 void repWholesale()
@@ -349,7 +365,7 @@ void repWholesale()
 	cout << CLEAR_SCREEN;
 	cout << "You selected Inventory Wholesale Value" << endl;
 	cout << "Press ENTER to continue..." << endl;
-	cin.ignore();
+	cin.ignore(1000, '\n');
 }
 
 void repRetail()
@@ -357,7 +373,7 @@ void repRetail()
 	cout << CLEAR_SCREEN;
 	cout << "You selected Inventory Retail Value" << endl;
 	cout << "Press ENTER to continue..." << endl;
-	cin.ignore();
+	cin.ignore(1000, '\n');
 }
 
 void repQty()
@@ -365,7 +381,7 @@ void repQty()
 	cout << CLEAR_SCREEN;
 	cout << "You selected Listing By Quantity" << endl;
 	cout << "Press ENTER to continue..." << endl;
-	cin.ignore();
+	cin.ignore(1000, '\n');
 }
 
 void repCost()
@@ -373,13 +389,13 @@ void repCost()
 	cout << CLEAR_SCREEN;
 	cout << "You selected Listing By Cost" << endl;
 	cout << "Press ENTER to continue..." << endl;
-	cin.ignore();
+	cin.ignore(1000, '\n');
 }
 
 void repAge()
 {
 	cout << CLEAR_SCREEN;
-	cout << "You selected Listing By age" << endl;
+	cout << "You selected Listing By Age" << endl;
 	cout << "Press ENTER to continue..." << endl;
-	cin.ignore();
+	cin.ignore(1000, '\n');
 }
