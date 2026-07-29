@@ -104,12 +104,14 @@ int main()
 			case '4': // exits program
 				cout << CLEAR_SCREEN;
 				cout << ">> Exiting Serendipity." << endl;
+				cout << "Press ENTER to continue ..." << endl;
+				cin.ignore(1000, '\n');
 				break;
 			case '\n': // if they entered nothing (pressed enter twice)
 				cout << CLEAR_SCREEN;
 				cout << "You entered nothing" << endl;
 				cout << "Press ENTER to continue ..." << endl;
-				cin.ignore();
+				cin.ignore(1000, '\n');
 				break;
 			default: // default case for if they responded with a non useable input
 				cout << CLEAR_SCREEN;
@@ -185,7 +187,7 @@ void cashier() {
 
 	// printing the receipt
 	cout << CLEAR_SCREEN;
-	cout << ORANGE << "Serendipity Book Sellers" << RESET << endl;
+	cout << ORANGE << "Serendipity Booksellers" << RESET << endl;
 	cout << endl;
 
 	cout << "Date: " << saleDate << endl;
@@ -296,7 +298,7 @@ void invMenu()
 				cout << CLEAR_SCREEN;
 				cout << "You entered nothing" << endl;
 				cout << "Press ENTER to continue ..." << endl;
-				cin.ignore();
+				cin.ignore(1000, '\n');
 				break;
 			default:
 				cout << CLEAR_SCREEN;
@@ -320,7 +322,7 @@ void reports()
 		string title = "Serendipity Booksellers";
 		string title2 = "Reports";
 		string opt1 = "      1. Inventory Listing";
-		string opt2 = "      2. Inventory Wholsale value";
+		string opt2 = "      2. Inventory Wholesale value";
 		string opt3 = "      3. Inventory Retail Value";
 		string opt4 = "      4. Listing by Quantity";
 		string opt5 = "      5. Listing by Cost";
@@ -404,7 +406,7 @@ void reports()
 				cout << CLEAR_SCREEN;
 				cout << "You entered nothing" << endl;
 				cout << "Press ENTER to continue ..." << endl;
-				cin.ignore();
+				cin.ignore(1000, '\n');
 				break;
 			default:
 				cout << CLEAR_SCREEN;
