@@ -42,21 +42,42 @@ int main()
 		// ASCII border box & menu top border
 		cout << '+' << right << setfill('=') << setw(NUM_COLS - 1) << '+' << setfill(' ') << endl;
 		cout << '|' << left << setw(NUM_COLS - 2) << "" << '|' << endl;
-		// main title for the store
-		cout << '|' << right << ORANGE << setw(NUM_COLS - 30) << "Serendipity Booksellers" << RESET << setw(NUM_COLS - 51) << '|' << endl;
-		// subtitle showing what part the user is in
-		cout << '|' << right << BOLD << setw(NUM_COLS - 37) << "Main Menu" << RESET << setw(NUM_COLS - 44) << '|' << endl;
+
+		string title = "Serendipity Booksellers";
+		string title2 = "Main Menu";
+		string opt1 = "      1. Cashier Module";
+		string opt2 = "      2. Inventory Database Module";
+		string opt3 = "      3. Report Module";
+		string opt4 = "      4. Exit";
+		string chooseOption = "      Enter your choice: ";
+
+		// title = Serendipity Booksellers
+		int totalWidth = NUM_COLS - 2; // 80 columns, minus the two '|'. This is for the setw for the text
+		int leftPad = (totalWidth - title.length()) / 2; // basically takes that 78 characters, subtracts title length and then splits that in two for padding
+		int rightPad = totalWidth - leftPad - title.length(); // Takes total space, subtracts by half of it, then subtracts the rest by the length of the text
+		cout << '|' << setw(leftPad) << "" << ORANGE << title << RESET << setw(rightPad) << "" << '|' << endl; // combines it all together
+
+		// title2 = MainMenu
+		int totalWidth2 = NUM_COLS - 2;
+		int leftPad2 = (totalWidth2 - title2.length()) / 2;
+		int rightPad2 = totalWidth2 - leftPad2 - title2.length();
+		cout << '|' << setw(leftPad2) << "" << BOLD << title2 << RESET << setw(rightPad2) << "" << '|' << endl;
 
 		cout << '|' << left << setw(NUM_COLS - 2) << "" << '|' << endl;
+
 		// Choice module text
-		cout << '|' << left << left << setw(NUM_COLS - 2) << "      1. Cashier Module" << '|' << endl;
-		cout << '|' << left << left << setw(NUM_COLS - 2) << "      2. Inventory Database Module" << '|' << endl;
-		cout << '|' << left << left << setw(NUM_COLS - 2) << "      3. Report Module" << '|' << endl;
-		cout << '|' << left << left << EXIT_RED << setw(NUM_COLS - 2) << "      4. Exit" << RESET << '|' << endl;
+		cout << '|' << left << setw(NUM_COLS - 2) << opt1 << '|' << endl;
+		cout << '|' << left << setw(NUM_COLS - 2) << opt2 << '|' << endl;
+		cout << '|' << left << setw(NUM_COLS - 2) << opt3 << '|' << endl;
+		cout << '|' << left << EXIT_RED << setw(NUM_COLS - 2) << opt4 << RESET << '|' << endl;
 		// border
 		cout << '|' << left << setw(NUM_COLS - 2) << "" << '|' << endl;
-		// more choice
-		cout << '|' << left << setw(NUM_COLS - 74) << "      Enter your choice: "<< "\033[s" << right << setw(NUM_COLS - 26) << '|' << endl; // the ansi saves user location
+
+		// chooseOption = "      Enter your choice"
+		int optionSetw = chooseOption.length();
+		int closingSetw = totalWidth - chooseOption.length() + 1;
+		cout << '|' << left << GREEN << setw(optionSetw) << chooseOption << RESET << "\033[s" << right << setw(closingSetw) << '|' << endl; // the ansi saves user location
+
 		// rest of the border
 		cout << '|' << left << setw(NUM_COLS - 2) << "" << '|' << endl;
 		cout << '+' << right << setfill('=') << setw(NUM_COLS - 1) << '+' << setfill(' ') << endl;
@@ -68,7 +89,6 @@ int main()
 		{
 			cin.ignore(1000, '\n');
 		}
-		cout << "\033[2B"; // ANSI moves 2 lines down
 
 		switch (choice) // switch based on what the user responded
 		{
@@ -197,38 +217,60 @@ void invMenu()
 	{
 		cout << CLEAR_SCREEN; // gets rid of old screen (mainmenu) and replaces it for this next part
 
+
+		string title = "Serendipity Booksellers";
+		string title2 = "Inventory Database";
+		string opt1 = "      1. Look Up a Book";
+		string opt2 = "      2. Add a Book";
+		string opt3 = "      3. Edit a Book's Record";
+		string opt4 = "      4. Delete a Book";
+		string opt5 = "      5. Return to Main Menu";
+		string chooseOption = "      Enter your choice: ";
+
 		// ASCII border box & menu top border
 		cout << '+' << right << setfill('=') << setw(NUM_COLS - 1) << '+' << setfill(' ') << endl;
 		cout << '|' << left << setw(NUM_COLS - 2) << "" << '|' << endl;
-		// main title for the store
-		cout << '|' << right << ORANGE << setw(NUM_COLS - 30) << "Serendipity Booksellers" << RESET << setw(NUM_COLS - 51) << '|' << endl;
-		// subtitle showing what part the user is in
-		cout << '|' << right << BOLD << setw(NUM_COLS - 32) << "Inventory Database" << RESET << setw(NUM_COLS - 49) << '|' << endl;
+
+		// title = Serendipity Booksellers
+		int totalWidth = NUM_COLS - 2; // 80 columns, minus the two '|'. This is for the setw for the text
+		int leftPad = (totalWidth - title.length()) / 2; // basically takes that 78 characters, subtracts title length and then splits that in two for padding
+		int rightPad = totalWidth - leftPad - title.length(); // Takes total space, subtracts by half of it, then subtracts the rest by the length of the text
+		cout << '|' << setw(leftPad) << "" << ORANGE << title << RESET << setw(rightPad) << "" << '|' << endl; // combines it all together
+
+		// title2 = Inventory Database
+		int totalWidth2 = NUM_COLS - 2;
+		int leftPad2 = (totalWidth2 - title2.length()) / 2;
+		int rightPad2 = totalWidth2 - leftPad2 - title2.length();
+		cout << '|' << setw(leftPad2) << "" << BOLD << title2 << RESET << setw(rightPad2) << "" << '|' << endl;
 
 		cout << '|' << left << setw(NUM_COLS - 2) << "" << '|' << endl;
+
 		// Choice module text
-		cout << '|' << left << left << setw(NUM_COLS - 2) << "      1. Look Up a Book" << '|' << endl;
-		cout << '|' << left << left << setw(NUM_COLS - 2) << "      2. Add a Book" << '|' << endl;
-		cout << '|' << left << left << setw(NUM_COLS - 2) << "      3. Edit a Book's Record" << '|' << endl;
-		cout << '|' << left << left << setw(NUM_COLS - 2) << "      4. Delete a Book" << '|' << endl;
-		cout << '|' << left << left << setw(NUM_COLS - 2) << "      5. Return to the Main Menu" << '|' << endl;
-		// border
+		cout << '|' << left << setw(NUM_COLS - 2) << opt1 << '|' << endl;
+		cout << '|' << left << setw(NUM_COLS - 2) << opt2 << '|' << endl;
+		cout << '|' << left << setw(NUM_COLS - 2) << opt3 << '|' << endl;
+		cout << '|' << left << setw(NUM_COLS - 2) << opt4 << '|' << endl;
+		cout << '|' << left << setw(NUM_COLS - 2) << opt5 << '|' << endl;
+
 		cout << '|' << left << setw(NUM_COLS - 2) << "" << '|' << endl;
-		// more choice
-		cout << '|' << left << setw(NUM_COLS - 74) << "      Enter Your Choice: " << "\033[s" << right << setw(NUM_COLS - 26) << '|' << endl;
+
+		// chooseOption = "      Enter your choice"
+		int optionSetw = chooseOption.length();
+		int closingSetw = totalWidth - chooseOption.length() + 1;
+		cout << '|' << left << GREEN << setw(optionSetw) << chooseOption << RESET << "\033[s" << right << setw(closingSetw) << '|' << endl; // the ansi saves user location
+
 		// rest of the border
 		cout << '|' << left << setw(NUM_COLS - 2) << "" << '|' << endl;
 		cout << '+' << right << setfill('=') << setw(NUM_COLS - 1) << '+' << setfill(' ') << endl;
 
+		// stuff about their choice
 		cout << "\033[u";
 		cin.get(choice);
 
-		if (choice != '\n')
+		if (choice != '\n') // this is for the case where they type nothing used later down
 		{
 			cin.ignore(1000, '\n');
 		}
-
-		cout << "\033[2B";
 
 		switch (choice)
 		{
@@ -274,27 +316,52 @@ void reports()
 	do
 	{
 		cout << CLEAR_SCREEN;
+
+		string title = "Serendipity Booksellers";
+		string title2 = "Reports";
+		string opt1 = "      1. Inventory Listing";
+		string opt2 = "      2. Inventory Wholsale value";
+		string opt3 = "      3. Inventory Retail Value";
+		string opt4 = "      4. Listing by Quantity";
+		string opt5 = "      5. Listing by Cost";
+		string opt6 = "      6. Listing by Age";
+		string opt7 = "      7. Return to Main Menu";
+		string chooseOption = "      Enter your choice: ";
+
 		// ASCII border box & menu top border
 		cout << '+' << right << setfill('=') << setw(NUM_COLS - 1) << '+' << setfill(' ') << endl;
 		cout << '|' << left << setw(NUM_COLS - 2) << "" << '|' << endl;
-		// main title for the store
-		cout << '|' << right << ORANGE << setw(NUM_COLS - 30) << "Serendipity Booksellers" << RESET << setw(NUM_COLS - 51) << '|' << endl;
-		// subtitle showing what part the user is in
-		cout << '|' << right << BOLD << setw(NUM_COLS - 38) << "Reports" << RESET << setw(NUM_COLS - 43) << '|' << endl;
+
+		// title = Serendipity Booksellers
+		int totalWidth = NUM_COLS - 2; // 80 columns, minus the two '|'. This is for the setw for the text
+		int leftPad = (totalWidth - title.length()) / 2; // basically takes that 78 characters, subtracts title length and then splits that in two for padding
+		int rightPad = totalWidth - leftPad - title.length(); // Takes total space, subtracts by half of it, then subtracts the rest by the length of the text
+		cout << '|' << setw(leftPad) << "" << ORANGE << title << RESET << setw(rightPad) << "" << '|' << endl; // combines it all together
+
+		// title2 = MainMenu
+		int totalWidth2 = NUM_COLS - 2;
+		int leftPad2 = (totalWidth2 - title2.length()) / 2;
+		int rightPad2 = totalWidth2 - leftPad2 - title2.length();
+		cout << '|' << setw(leftPad2) << "" << BOLD << title2 << RESET << setw(rightPad2) << "" << '|' << endl;
 
 		cout << '|' << left << setw(NUM_COLS - 2) << "" << '|' << endl;
+
 		// Choice module text
-		cout << '|' << left << left << setw(NUM_COLS - 2) << "      1. Inventory Listing" << '|' << endl;
-		cout << '|' << left << left << setw(NUM_COLS - 2) << "      2. Inventory Wholesale Value" << '|' << endl;
-		cout << '|' << left << left << setw(NUM_COLS - 2) << "      3. Inventory Retail Value" << '|' << endl;
-		cout << '|' << left << left << setw(NUM_COLS - 2) << "      4. Listing by Quantity" << '|' << endl;
-		cout << '|' << left << left << setw(NUM_COLS - 2) << "      5. Listing by Cost" << '|' << endl;
-		cout << '|' << left << left << setw(NUM_COLS - 2) << "      6. Listing by Age" << '|' << endl;
-		cout << '|' << left << left << setw(NUM_COLS - 2) << "      7. Return to the Main Menu" << '|' << endl;
+		cout << '|' << left << setw(NUM_COLS - 2) << opt1 << '|' << endl;
+		cout << '|' << left << setw(NUM_COLS - 2) << opt2 << '|' << endl;
+		cout << '|' << left << setw(NUM_COLS - 2) << opt3 << '|' << endl;
+		cout << '|' << left << setw(NUM_COLS - 2) << opt4 << '|' << endl;
+		cout << '|' << left << setw(NUM_COLS - 2) << opt5 << '|' << endl;
+		cout << '|' << left << setw(NUM_COLS - 2) << opt6 << '|' << endl;
+		cout << '|' << left << setw(NUM_COLS - 2) << opt7 << '|' << endl;
 		// border
 		cout << '|' << left << setw(NUM_COLS - 2) << "" << '|' << endl;
-		// more choice
-		cout << '|' << left << setw(NUM_COLS - 74) << "      Enter Your Choice: " << "\033[s" << right << setw(NUM_COLS - 26) << '|' << endl;
+
+		// chooseOption = "      Enter your choice"
+		int optionSetw = chooseOption.length();
+		int closingSetw = totalWidth - chooseOption.length() + 1;
+		cout << '|' << left << GREEN << setw(optionSetw) << chooseOption << RESET << "\033[s" << right << setw(closingSetw) << '|' << endl; // the ansi saves user location
+
 		// rest of the border
 		cout << '|' << left << setw(NUM_COLS - 2) << "" << '|' << endl;
 		cout << '+' << right << setfill('=') << setw(NUM_COLS - 1) << '+' << setfill(' ') << endl;
@@ -306,8 +373,6 @@ void reports()
 		{
 			cin.ignore(1000, '\n');
 		}
-
-		cout << "\033[2B";
 
 		switch (choice)
 		{
