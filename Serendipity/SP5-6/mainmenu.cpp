@@ -1,18 +1,32 @@
-/* ===============================================================================================
+/* ==========================================================================================================
 
 	Programmer:            Emaad Ilyas
 	Course:                CS1A Intro to Compsci I w/ C++
-	Assignment:            LAb SP5 - Serendipity Main Menu Screen
+	Assignment:            LAb SP56 - Serendipity Main Menu Screen
 	Date Written:          2026-07-01
 	Date Due:              2026-07-08
 	Instructor:            Jeffrey Barnett
 
-	Purpose:               Display the Serendipity Booksellers Main Menu screen
-	                       formatted with iomanip maniuplators. Includes a switch with a
-								  case to give an output depending on the input that the user puts
-								  either changing their location or presenting with an error message.
+	Purpose:               Merge the Serendipity Booksellers projects into one program. Displays
+								  the Main Menu, Inventory Database Module menu, and the reports menu.
+								  Each of which looping in an 80 column box. Reads the user for their input
+								  and also checks for bad input from the user. Connected to include another
+								  file which contains all of the functionheaders, named constants, inclusions,
+								  and gaurds. Not connected to an actual database yet.
 
-=============================================================================================== */
+	Algorithm:             1: Displays Main Menu screen in an 80 column box.
+								  2: Reads user's choice as a single character.
+								  3: If choice is invalid it will show an error, then prompt the user again.
+								  4: If the choice selected is 1, it will run the cashier, that reads input from
+									  the user for information to generate the receipt.
+								  5: If the choice selected is 2, it will change the menu to the Inventory
+									  Database Module. Which loops the same way as mainmenu
+								  6: If the choice selected is 3, it will change the menu to the Reports Module
+									  and it also looks the same as mainmenu.
+								  7: If the choice selected is 4, the user will exit the program.
+								  8: Repeat steps 1 through 7 until the user selects 4 on Main Menu to exit.
+
+=========================================================================================================== */
 
 // include serendipity.h which has all of the inclusions and constants
 #include "serendipity.h"
@@ -42,36 +56,36 @@ int main()
 		// border
 		cout << '|' << left << setw(NUM_COLS - 2) << "" << '|' << endl;
 		// more choice
-		cout << '|' << left << setw(NUM_COLS - 74) << "      Enter your choice: "<< "\033[s" << right << setw(NUM_COLS - 26) << '|' << endl;
+		cout << '|' << left << setw(NUM_COLS - 74) << "      Enter your choice: "<< "\033[s" << right << setw(NUM_COLS - 26) << '|' << endl; // the ansi saves user location
 		// rest of the border
 		cout << '|' << left << setw(NUM_COLS - 2) << "" << '|' << endl;
 		cout << '+' << right << setfill('=') << setw(NUM_COLS - 1) << '+' << setfill(' ') << endl;
 
 		// the user enter area
-		cout << "\033[u";
+		cout << "\033[u"; // sets user location to previously saved ANSI text
 		cin.get(choice); // this was here since of a bug where if you just typed enter when the program runs nothing would happen and you would go to a newline
 		if (choice != '\n')
 		{
 			cin.ignore(1000, '\n');
 		}
-		cout << "\033[2B";
+		cout << "\033[2B"; // ANSI moves 2 lines down
 
 		switch (choice) // switch based on what the user responded
 		{
-			case '1':
+			case '1': // calls for cashier
 				cashier();
 				break;
-			case '2':
+			case '2': // calls for invmenu
 				invMenu();
 				break;
-			case '3':
+			case '3': // calls for reports
 				reports();
 				break;
-			case '4':
+			case '4': // exits program
 				cout << CLEAR_SCREEN;
 				cout << ">> Exiting Serendipity." << endl;
 				break;
-			case '\n':
+			case '\n': // if they entered nothing (pressed enter twice)
 				cout << CLEAR_SCREEN;
 				cout << "You entered nothing" << endl;
 				cout << "Press ENTER to continue ..." << endl;
@@ -85,15 +99,16 @@ int main()
 				cin.ignore(1000, '\n');
 		}
 	}
-	while (choice != '4');
+	while (choice != '4'); // will keep doing this loop until they chose to exit
 	return 0;
 }
 
 // ---------------------------|Function: Cashier|--------------------------- //
 void cashier() {
 
-	cout << CLEAR_SCREEN;
+	cout << CLEAR_SCREEN; // gets rid of old screen (mainmenu) and replaces it for this next part
 	cout << endl;
+
 	// declaring constants and variables the user will input
 	string saleDate;                 // the date of the sale (MM-DD-YYYY)
 	int quantity;                    // the number of quantities sold (integer becuase it's a whole num)
@@ -115,9 +130,33 @@ void cashier() {
 	cout << "Enter Quantity: ";
 	cin >> quantity;
 
+	// checking in case cin fails we dont want that
+	if (cin.fail())
+	{
+		cin.clear();
+		cin.ignore(1000, '\n');
+		cout << CLEAR_SCREEN;
+		cout << "Invalid option entered---Returning to Main Menu." << endl;
+		cout << "Press ENTER to continue ..." << endl;
+		cin.ignore(1000, '\n');
+		return;
+	}
+
 	cout << "Enter Price: ";
 	cin >> retailPrice;
 	cin.ignore(1000, '\n');
+
+	// checking in case cin fails we dont want that
+	if (cin.fail())
+	{
+		cin.clear();
+		cin.ignore(1000, '\n');
+		cout << CLEAR_SCREEN;
+		cout << "Invalid option entered---Returning to Main Menu." << endl;
+		cout << "Press ENTER to continue ..." << endl;
+		cin.ignore(1000, '\n');
+		return;
+	}
 
 	// doing the math for the receipt to print
 	double lineTotal = quantity * retailPrice;
@@ -156,7 +195,8 @@ void invMenu()
 	char choice;
 	do
 	{
-		cout << CLEAR_SCREEN;
+		cout << CLEAR_SCREEN; // gets rid of old screen (mainmenu) and replaces it for this next part
+
 		// ASCII border box & menu top border
 		cout << '+' << right << setfill('=') << setw(NUM_COLS - 1) << '+' << setfill(' ') << endl;
 		cout << '|' << left << setw(NUM_COLS - 2) << "" << '|' << endl;
@@ -209,6 +249,12 @@ void invMenu()
 				cout << ">> Returning to Main Menu..." << endl;
 				cout << "Press ENTER to continue..." << endl;
 				cin.ignore(1000, '\n');
+				break;
+			case '\n': // if they entered nothing (pressed enter twice)
+				cout << CLEAR_SCREEN;
+				cout << "You entered nothing" << endl;
+				cout << "Press ENTER to continue ..." << endl;
+				cin.ignore();
 				break;
 			default:
 				cout << CLEAR_SCREEN;
@@ -288,6 +334,12 @@ void reports()
 				cout << ">> Returning to Main Menu..." << endl;
 				cout << "Press ENTER to continue..." << endl;
 				cin.ignore(1000, '\n');
+				break;
+			case '\n': // if they entered nothing (pressed enter twice)
+				cout << CLEAR_SCREEN;
+				cout << "You entered nothing" << endl;
+				cout << "Press ENTER to continue ..." << endl;
+				cin.ignore();
 				break;
 			default:
 				cout << CLEAR_SCREEN;
