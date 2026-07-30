@@ -40,8 +40,8 @@ int main()
 	{
 		cout << CLEAR_SCREEN;
 		// ASCII border box & menu top border
-		cout << '+' << right << setfill('=') << setw(NUM_COLS - 1) << '+' << setfill(' ') << endl;
-		cout << '|' << left << setw(NUM_COLS - 2) << "" << '|' << endl;
+		cout << CYAN << '+' << right << setfill('=') << setw(NUM_COLS - 1) << '+' << setfill(' ') << RESET << endl;
+		cout << CYAN << '|' << RESET << left << setw(NUM_COLS - 2) << "" << CYAN << '|' << RESET << endl;
 
 		string title = "Serendipity Booksellers";
 		string title2 = "Main Menu";
@@ -55,32 +55,32 @@ int main()
 		int totalWidth = NUM_COLS - 2; // 80 columns, minus the two '|'. This is for the setw for the text
 		int leftPad = (totalWidth - title.length()) / 2; // basically takes that 78 characters, subtracts title length and then splits that in two for padding
 		int rightPad = totalWidth - leftPad - title.length(); // Takes total space, subtracts by half of it, then subtracts the rest by the length of the text
-		cout << '|' << setw(leftPad) << "" << ORANGE << title << RESET << setw(rightPad) << "" << '|' << endl; // combines it all together
+		cout << CYAN << '|' << RESET << setw(leftPad) << "" << ORANGE << title << RESET << setw(rightPad) << "" << CYAN << '|' << RESET << endl; // combines it all together
 
 		// title2 = MainMenu
 		int totalWidth2 = NUM_COLS - 2;
 		int leftPad2 = (totalWidth2 - title2.length()) / 2;
 		int rightPad2 = totalWidth2 - leftPad2 - title2.length();
-		cout << '|' << setw(leftPad2) << "" << BOLD << title2 << RESET << setw(rightPad2) << "" << '|' << endl;
+		cout << CYAN << '|' << RESET << setw(leftPad2) << "" << BOLD << title2 << RESET << setw(rightPad2) << "" << CYAN << '|' << RESET << endl;
 
-		cout << '|' << left << setw(NUM_COLS - 2) << "" << '|' << endl;
+		cout << CYAN << '|' << RESET << left << setw(NUM_COLS - 2) << "" << CYAN << '|' << RESET << endl;
 
 		// Choice module text
-		cout << '|' << left << setw(NUM_COLS - 2) << opt1 << '|' << endl;
-		cout << '|' << left << setw(NUM_COLS - 2) << opt2 << '|' << endl;
-		cout << '|' << left << setw(NUM_COLS - 2) << opt3 << '|' << endl;
-		cout << '|' << left << EXIT_RED << setw(NUM_COLS - 2) << opt4 << RESET << '|' << endl;
+		cout << CYAN << '|' << RESET << left << setw(NUM_COLS - 2) << opt1 << CYAN << '|' << RESET << endl;
+		cout << CYAN << '|' << RESET << left << setw(NUM_COLS - 2) << opt2 << CYAN << '|' << RESET << endl;
+		cout << CYAN << '|' << RESET << left << setw(NUM_COLS - 2) << opt3 << CYAN << '|' << RESET << endl;
+		cout << CYAN << '|' << RESET << left << EXIT_RED << setw(NUM_COLS - 2) << opt4 << RESET << CYAN << '|' << RESET << endl;
 		// border
-		cout << '|' << left << setw(NUM_COLS - 2) << "" << '|' << endl;
+		cout << CYAN << '|' << RESET << left << setw(NUM_COLS - 2) << "" << CYAN << '|' << RESET << endl;
 
 		// chooseOption = "      Enter your choice"
 		int optionSetw = chooseOption.length();
-		int closingSetw = totalWidth - chooseOption.length() + 1;
-		cout << '|' << left << GREEN << setw(optionSetw) << chooseOption << RESET << "\033[s" << right << setw(closingSetw) << '|' << endl; // the ansi saves user location
+		int closingSetw = totalWidth - chooseOption.length();
+		cout << CYAN << '|' << RESET << left << GREEN << setw(optionSetw) << chooseOption << RESET << "\033[s" << right << setw(closingSetw) << "" << CYAN << '|' << RESET << endl; // the ansi saves user location
 
 		// rest of the border
-		cout << '|' << left << setw(NUM_COLS - 2) << "" << '|' << endl;
-		cout << '+' << right << setfill('=') << setw(NUM_COLS - 1) << '+' << setfill(' ') << endl;
+		cout << CYAN << '|' << RESET << left << setw(NUM_COLS - 2) << "" << CYAN << '|' << RESET << endl;
+		cout << CYAN << '+' << right << setfill('=') << setw(NUM_COLS - 1) << '+' << setfill(' ') << RESET << endl;
 
 		// the user enter area
 		cout << "\033[u"; // sets user location to previously saved ANSI text
@@ -230,40 +230,40 @@ void invMenu()
 		string chooseOption = "      Enter your choice: ";
 
 		// ASCII border box & menu top border
-		cout << '+' << right << setfill('=') << setw(NUM_COLS - 1) << '+' << setfill(' ') << endl;
-		cout << '|' << left << setw(NUM_COLS - 2) << "" << '|' << endl;
+		cout << CYAN << '+' << right << setfill('=') << setw(NUM_COLS - 1) << '+' << setfill(' ') << RESET << endl;
+		cout << CYAN << '|' << RESET << left << setw(NUM_COLS - 2) << "" << CYAN << '|' << RESET << endl;
 
 		// title = Serendipity Booksellers
 		int totalWidth = NUM_COLS - 2; // 80 columns, minus the two '|'. This is for the setw for the text
 		int leftPad = (totalWidth - title.length()) / 2; // basically takes that 78 characters, subtracts title length and then splits that in two for padding
 		int rightPad = totalWidth - leftPad - title.length(); // Takes total space, subtracts by half of it, then subtracts the rest by the length of the text
-		cout << '|' << setw(leftPad) << "" << ORANGE << title << RESET << setw(rightPad) << "" << '|' << endl; // combines it all together
+		cout << CYAN << '|' << RESET << setw(leftPad) << "" << ORANGE << title << RESET << setw(rightPad) << "" << CYAN << '|' << RESET << endl; // combines it all together
 
 		// title2 = Inventory Database
 		int totalWidth2 = NUM_COLS - 2;
 		int leftPad2 = (totalWidth2 - title2.length()) / 2;
 		int rightPad2 = totalWidth2 - leftPad2 - title2.length();
-		cout << '|' << setw(leftPad2) << "" << BOLD << title2 << RESET << setw(rightPad2) << "" << '|' << endl;
+		cout << CYAN << '|' << RESET << setw(leftPad2) << "" << BOLD << title2 << RESET << setw(rightPad2) << "" << CYAN << '|' << RESET << endl;
 
-		cout << '|' << left << setw(NUM_COLS - 2) << "" << '|' << endl;
+		cout << CYAN << '|' << RESET << left << setw(NUM_COLS - 2) << "" << CYAN << '|' << RESET << endl;
 
 		// Choice module text
-		cout << '|' << left << setw(NUM_COLS - 2) << opt1 << '|' << endl;
-		cout << '|' << left << setw(NUM_COLS - 2) << opt2 << '|' << endl;
-		cout << '|' << left << setw(NUM_COLS - 2) << opt3 << '|' << endl;
-		cout << '|' << left << setw(NUM_COLS - 2) << opt4 << '|' << endl;
-		cout << '|' << left << setw(NUM_COLS - 2) << opt5 << '|' << endl;
+		cout << CYAN << '|' << RESET << left << setw(NUM_COLS - 2) << opt1 << CYAN << '|' << RESET << endl;
+		cout << CYAN << '|' << RESET << left << setw(NUM_COLS - 2) << opt2 << CYAN << '|' << RESET << endl;
+		cout << CYAN << '|' << RESET << left << setw(NUM_COLS - 2) << opt3 << CYAN << '|' << RESET << endl;
+		cout << CYAN << '|' << RESET << left << setw(NUM_COLS - 2) << opt4 << CYAN << '|' << RESET << endl;
+		cout << CYAN << '|' << RESET << left << setw(NUM_COLS - 2) << opt5 << CYAN << '|' << RESET << endl;
 
-		cout << '|' << left << setw(NUM_COLS - 2) << "" << '|' << endl;
+		cout << CYAN << '|' << RESET << left << setw(NUM_COLS - 2) << "" << CYAN << '|' << RESET << endl;
 
 		// chooseOption = "      Enter your choice"
 		int optionSetw = chooseOption.length();
-		int closingSetw = totalWidth - chooseOption.length() + 1;
-		cout << '|' << left << GREEN << setw(optionSetw) << chooseOption << RESET << "\033[s" << right << setw(closingSetw) << '|' << endl; // the ansi saves user location
+		int closingSetw = totalWidth - chooseOption.length();
+		cout << CYAN << '|' << RESET << left << GREEN << setw(optionSetw) << chooseOption << RESET << "\033[s" << right << setw(closingSetw) << "" << CYAN << '|' << RESET << endl; // the ansi saves user location
 
 		// rest of the border
-		cout << '|' << left << setw(NUM_COLS - 2) << "" << '|' << endl;
-		cout << '+' << right << setfill('=') << setw(NUM_COLS - 1) << '+' << setfill(' ') << endl;
+		cout << CYAN << '|' << left << setw(NUM_COLS - 2) << "" << '|' << RESET << endl;
+		cout << CYAN << '+' << right << setfill('=') << setw(NUM_COLS - 1) << '+' << setfill(' ') << RESET << endl;
 
 		// stuff about their choice
 		cout << "\033[u";
@@ -322,7 +322,7 @@ void reports()
 		string title = "Serendipity Booksellers";
 		string title2 = "Reports";
 		string opt1 = "      1. Inventory Listing";
-		string opt2 = "      2. Inventory Wholesale value";
+		string opt2 = "      2. Inventory Wholesale Value";
 		string opt3 = "      3. Inventory Retail Value";
 		string opt4 = "      4. Listing by Quantity";
 		string opt5 = "      5. Listing by Cost";
@@ -331,42 +331,42 @@ void reports()
 		string chooseOption = "      Enter your choice: ";
 
 		// ASCII border box & menu top border
-		cout << '+' << right << setfill('=') << setw(NUM_COLS - 1) << '+' << setfill(' ') << endl;
-		cout << '|' << left << setw(NUM_COLS - 2) << "" << '|' << endl;
+		cout << CYAN << '+' << right << setfill('=') << setw(NUM_COLS - 1) << '+' << setfill(' ') << RESET << endl;
+		cout << CYAN << '|' << left << setw(NUM_COLS - 2) << "" << '|' << RESET << endl;
 
 		// title = Serendipity Booksellers
 		int totalWidth = NUM_COLS - 2; // 80 columns, minus the two '|'. This is for the setw for the text
 		int leftPad = (totalWidth - title.length()) / 2; // basically takes that 78 characters, subtracts title length and then splits that in two for padding
 		int rightPad = totalWidth - leftPad - title.length(); // Takes total space, subtracts by half of it, then subtracts the rest by the length of the text
-		cout << '|' << setw(leftPad) << "" << ORANGE << title << RESET << setw(rightPad) << "" << '|' << endl; // combines it all together
+		cout << CYAN << '|' << RESET << setw(leftPad) << "" << ORANGE << title << RESET << setw(rightPad) << "" << CYAN << '|' << RESET << endl; // combines it all together
 
 		// title2 = MainMenu
 		int totalWidth2 = NUM_COLS - 2;
 		int leftPad2 = (totalWidth2 - title2.length()) / 2;
 		int rightPad2 = totalWidth2 - leftPad2 - title2.length();
-		cout << '|' << setw(leftPad2) << "" << BOLD << title2 << RESET << setw(rightPad2) << "" << '|' << endl;
+		cout << CYAN << '|' << RESET << setw(leftPad2) << "" << BOLD << title2 << RESET << setw(rightPad2) << "" << CYAN << '|' << RESET << endl;
 
-		cout << '|' << left << setw(NUM_COLS - 2) << "" << '|' << endl;
+		cout << CYAN << '|' << RESET << left << setw(NUM_COLS - 2) << "" << CYAN << '|' << RESET << endl;
 
 		// Choice module text
-		cout << '|' << left << setw(NUM_COLS - 2) << opt1 << '|' << endl;
-		cout << '|' << left << setw(NUM_COLS - 2) << opt2 << '|' << endl;
-		cout << '|' << left << setw(NUM_COLS - 2) << opt3 << '|' << endl;
-		cout << '|' << left << setw(NUM_COLS - 2) << opt4 << '|' << endl;
-		cout << '|' << left << setw(NUM_COLS - 2) << opt5 << '|' << endl;
-		cout << '|' << left << setw(NUM_COLS - 2) << opt6 << '|' << endl;
-		cout << '|' << left << setw(NUM_COLS - 2) << opt7 << '|' << endl;
+		cout << CYAN << '|' << RESET << left << setw(NUM_COLS - 2) << opt1 << CYAN << '|' << RESET << endl;
+		cout << CYAN << '|' << RESET << left << setw(NUM_COLS - 2) << opt2 << CYAN << '|' << RESET << endl;
+		cout << CYAN << '|' << RESET << left << setw(NUM_COLS - 2) << opt3 << CYAN << '|' << RESET << endl;
+		cout << CYAN << '|' << RESET << left << setw(NUM_COLS - 2) << opt4 << CYAN << '|' << RESET << endl;
+		cout << CYAN << '|' << RESET << left << setw(NUM_COLS - 2) << opt5 << CYAN << '|' << RESET << endl;
+		cout << CYAN << '|' << RESET << left << setw(NUM_COLS - 2) << opt6 << CYAN << '|' << RESET << endl;
+		cout << CYAN << '|' << RESET << left << setw(NUM_COLS - 2) << opt7 << CYAN << '|' << RESET << endl;
 		// border
-		cout << '|' << left << setw(NUM_COLS - 2) << "" << '|' << endl;
+		cout << CYAN << '|' << left << setw(NUM_COLS - 2) << "" << '|' << RESET << endl;
 
 		// chooseOption = "      Enter your choice"
 		int optionSetw = chooseOption.length();
-		int closingSetw = totalWidth - chooseOption.length() + 1;
-		cout << '|' << left << GREEN << setw(optionSetw) << chooseOption << RESET << "\033[s" << right << setw(closingSetw) << '|' << endl; // the ansi saves user location
+		int closingSetw = totalWidth - chooseOption.length();
+		cout << CYAN << '|' << RESET << left << GREEN << setw(optionSetw) << chooseOption << RESET << "\033[s" << right << setw(closingSetw) << "" << CYAN << '|' << RESET << endl; // the ansi saves user location
 
 		// rest of the border
-		cout << '|' << left << setw(NUM_COLS - 2) << "" << '|' << endl;
-		cout << '+' << right << setfill('=') << setw(NUM_COLS - 1) << '+' << setfill(' ') << endl;
+		cout << CYAN << '|' << left << setw(NUM_COLS - 2) << "" << '|' << RESET << endl;
+		cout << CYAN << '+' << right << setfill('=') << setw(NUM_COLS - 1) << '+' << setfill(' ') << RESET << endl;
 
 		cout << "\033[u";
 		cin.get(choice);

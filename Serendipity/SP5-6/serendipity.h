@@ -30,6 +30,7 @@ const string BOLD = "\033[1m";
 const string ORANGE = "\033[33m";
 const string EXIT_RED = "\033[31m";
 const string GREEN = "\033[32m";
+const string CYAN = "\033[36m";
 const double TAX_RATE = 0.06;
 
 // -------------------------------Function Prototypes------------------------------ //
