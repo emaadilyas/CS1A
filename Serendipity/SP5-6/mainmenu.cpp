@@ -103,9 +103,7 @@ int main()
 				break;
 			case '4': // exits program
 				cout << CLEAR_SCREEN;
-				cout << ">> Exiting Serendipity." << endl;
-				cout << "Press ENTER to continue ..." << endl;
-				cin.ignore(1000, '\n');
+				cout << ">> Exiting Serendipity. Goodbye." << endl;
 				break;
 			case '\n': // if they entered nothing (pressed enter twice)
 				cout << CLEAR_SCREEN;
@@ -288,11 +286,11 @@ void invMenu()
 			case '4':
 				deleteBook();
 				break;
-			case '5':
+			case '5': /*
 				cout << CLEAR_SCREEN;
 				cout << ">> Returning to Main Menu..." << endl;
 				cout << "Press ENTER to continue..." << endl;
-				cin.ignore(1000, '\n');
+				cin.ignore(1000, '\n'); */
 				break;
 			case '\n': // if they entered nothing (pressed enter twice)
 				cout << CLEAR_SCREEN;
@@ -396,11 +394,11 @@ void reports()
 			case '6':
 				repAge();
 				break;
-			case '7':
+			case '7': /*
 				cout << CLEAR_SCREEN;
 				cout << ">> Returning to Main Menu..." << endl;
 				cout << "Press ENTER to continue..." << endl;
-				cin.ignore(1000, '\n');
+				cin.ignore(1000, '\n'); */
 				break;
 			case '\n': // if they entered nothing (pressed enter twice)
 				cout << CLEAR_SCREEN;
