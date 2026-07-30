@@ -76,14 +76,14 @@ int main()
 		// chooseOption = "      Enter your choice"
 		int optionSetw = chooseOption.length();
 		int closingSetw = totalWidth - chooseOption.length();
-		cout << CYAN << '|' << RESET << left << GREEN << setw(optionSetw) << chooseOption << RESET << "\033[s" << right << setw(closingSetw) << "" << CYAN << '|' << RESET << endl; // the ansi saves user location
+		cout << CYAN << '|' << RESET << left << GREEN << setw(optionSetw) << chooseOption << RESET << SAVE << right << setw(closingSetw) << "" << CYAN << '|' << RESET << endl; // the ansi saves user location
 
 		// rest of the border
 		cout << CYAN << '|' << RESET << left << setw(NUM_COLS - 2) << "" << CYAN << '|' << RESET << endl;
 		cout << CYAN << '+' << right << setfill('=') << setw(NUM_COLS - 1) << '+' << setfill(' ') << RESET << endl;
 
 		// the user enter area
-		cout << "\033[u"; // sets user location to previously saved ANSI text
+		cout << LOAD; // sets user location to previously saved ANSI text
 		cin.get(choice); // this was here since of a bug where if you just typed enter when the program runs nothing would happen and you would go to a newline
 		if (choice != '\n')
 		{
@@ -259,14 +259,14 @@ void invMenu()
 		// chooseOption = "      Enter your choice"
 		int optionSetw = chooseOption.length();
 		int closingSetw = totalWidth - chooseOption.length();
-		cout << CYAN << '|' << RESET << left << GREEN << setw(optionSetw) << chooseOption << RESET << "\033[s" << right << setw(closingSetw) << "" << CYAN << '|' << RESET << endl; // the ansi saves user location
+		cout << CYAN << '|' << RESET << left << GREEN << setw(optionSetw) << chooseOption << RESET << SAVE << right << setw(closingSetw) << "" << CYAN << '|' << RESET << endl; // the ansi saves user location
 
 		// rest of the border
 		cout << CYAN << '|' << left << setw(NUM_COLS - 2) << "" << '|' << RESET << endl;
 		cout << CYAN << '+' << right << setfill('=') << setw(NUM_COLS - 1) << '+' << setfill(' ') << RESET << endl;
 
 		// stuff about their choice
-		cout << "\033[u";
+		cout << LOAD;
 		cin.get(choice);
 
 		if (choice != '\n') // this is for the case where they type nothing used later down
@@ -362,13 +362,13 @@ void reports()
 		// chooseOption = "      Enter your choice"
 		int optionSetw = chooseOption.length();
 		int closingSetw = totalWidth - chooseOption.length();
-		cout << CYAN << '|' << RESET << left << GREEN << setw(optionSetw) << chooseOption << RESET << "\033[s" << right << setw(closingSetw) << "" << CYAN << '|' << RESET << endl; // the ansi saves user location
+		cout << CYAN << '|' << RESET << left << GREEN << setw(optionSetw) << chooseOption << RESET << SAVE << right << setw(closingSetw) << "" << CYAN << '|' << RESET << endl; // the ansi saves user location
 
 		// rest of the border
 		cout << CYAN << '|' << left << setw(NUM_COLS - 2) << "" << '|' << RESET << endl;
 		cout << CYAN << '+' << right << setfill('=') << setw(NUM_COLS - 1) << '+' << setfill(' ') << RESET << endl;
 
-		cout << "\033[u";
+		cout << LOAD;
 		cin.get(choice);
 
 		if (choice != '\n')

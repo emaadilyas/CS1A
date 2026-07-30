@@ -31,6 +31,8 @@ const string ORANGE = "\033[33m";
 const string EXIT_RED = "\033[31m";
 const string GREEN = "\033[32m";
 const string CYAN = "\033[36m";
+const string SAVE = "\033[s";
+const string LOAD = "\033[u";
 const double TAX_RATE = 0.06;
 
 // -------------------------------Function Prototypes------------------------------ //
