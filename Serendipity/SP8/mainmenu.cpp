@@ -42,7 +42,7 @@ int main()
 {
 	char choice; // variable user will input to chose where to move
 
-	// array constants
+	// array variables
 	string bookTitle[DBSIZE];
 	string isbn[DBSIZE];
 	string author[DBSIZE];
@@ -466,10 +466,155 @@ size_t lookUpBook(const string bookTitle[], const string isbn[], const string au
 
 void addBook(string bookTitle[], string isbn[], string author[], string publisher[], string dateAdded[], int qtyOnHand[], double wholesale[], double retail[], size_t &numRecords)
 {
+	// screen transition
 	cout << CLEAR_SCREEN;
 	cout << "You selected Add Book" << endl;
 	cout << "Press ENTER to continue..." << endl;
 	cin.ignore(1000, '\n');
+
+	// more variables
+	char choice;
+	string pendingBookTitle = "EMPTY";
+	string pendingISBN      = "EMPTY";
+	string pendingAuthor    = "EMPTY";
+	string pendingPublisher = "EMPTY";
+	string pendingDateAdded = "EMPTY";
+	int pendingQtyOnHand 	= 0;
+	double pendingWholesale = 0.0;
+	double pendingRetail    = 0.0;
+
+	do
+	{
+	// literally like the only time <sstream> is used
+	ostringstream ss7, ss8;
+	ss7 << fixed << setprecision(2) << pendingWholesale;
+	ss8 << fixed << setprecision(2) << pendingRetail;
+
+	// variables for the screen
+	string title = "Serendipity Booksellers";
+	string title2 = "Add Book";
+	string title3 = "Database Size: " + to_string(DBSIZE) + " Current Book Count: " + to_string(numRecords);
+	string opt1 = " <1> Enter Book Title               >  --" + pendingBookTitle;
+	string opt2 = " <2> Enter Book ISBN                >  --" + pendingISBN;
+	string opt3 = " <3> Enter Author                   >  --" + pendingAuthor;
+	string opt4 = " <4> Enter Publisher                >  --" + pendingPublisher;
+	string opt5 = " <5> Enter Date Added (MM-DD-YYYY)  >  --" + pendingDateAdded;
+	string opt6 = " <6> Enter Quantity on Hand         >  --" + to_string(pendingQtyOnHand);
+	string opt7 = " <7> Enter Wholesale Cost           >  --$" + ss7.str();
+	string opt8 = " <8> Enter Retail Price             >  --$" + ss8.str();
+	string opt9 = " <9> Save Book to Database";
+	string opt0 = " <0> Return to Inventory Menu";
+
+		// actual screen
+		cout << CLEAR_SCREEN;
+		cout << CYAN << '+' << right << setfill('=') << setw(NUM_COLS - 1) << '+' << setfill(' ') << RESET << endl;
+		cout << CYAN << '|' << RESET << left << setw(NUM_COLS - 2) << "" << CYAN << '|' << RESET << endl;
+
+		// title = Serendipity Booksellers
+		int totalWidth = NUM_COLS - 2;
+		int leftPad = (totalWidth - title.length()) / 2;
+		int rightPad = totalWidth - leftPad - title.length();
+		cout << CYAN << '|' << RESET << setw(leftPad) << "" << ORANGE << title << RESET << setw(rightPad) << "" << CYAN << '|' << RESET << endl;
+
+		// title2 = Add Book
+		int totalWidth2 = NUM_COLS - 2;
+		int leftPad2 = (totalWidth2 - title2.length()) / 2;
+		int rightPad2 = totalWidth2 - leftPad2 - title2.length();
+		cout << CYAN << '|' << RESET << setw(leftPad2) << "" << BOLD << title2 << RESET << setw(rightPad2) << "" << CYAN << '|' << RESET << endl;
+
+		cout << CYAN << '|' << RESET << left << setw(NUM_COLS - 2) << "" << CYAN << '|' << RESET << endl;
+
+		// title2 = DB size and Numrecords
+		int totalWidth3 = NUM_COLS - 2;
+		int leftPad3 = (totalWidth3 - title3.length()) / 2;
+		int rightPad3 = totalWidth3 - leftPad3 - title3.length();
+		cout << CYAN << '|' << RESET << setw(leftPad3) << "" << BOLD << title3 << RESET << setw(rightPad3) << "" << CYAN << '|' << RESET << endl;
+
+		cout << CYAN << '|' << RESET << left << setw(NUM_COLS - 2) << "" << CYAN << '|' << RESET << endl;
+
+		// Choice module text
+		cout << CYAN << '|' << RESET << left << setw(NUM_COLS - 2) << opt1 << CYAN << '|' << RESET << endl;
+		cout << CYAN << '|' << RESET << left << setw(NUM_COLS - 2) << opt2 << CYAN << '|' << RESET << endl;
+		cout << CYAN << '|' << RESET << left << setw(NUM_COLS - 2) << opt3 << CYAN << '|' << RESET << endl;
+		cout << CYAN << '|' << RESET << left << setw(NUM_COLS - 2) << opt4 << CYAN << '|' << RESET << endl;
+		cout << CYAN << '|' << RESET << left << setw(NUM_COLS - 2) << opt5 << CYAN << '|' << RESET << endl;
+		cout << CYAN << '|' << RESET << left << setw(NUM_COLS - 2) << opt6 << CYAN << '|' << RESET << endl;
+		cout << CYAN << '|' << RESET << left << setw(NUM_COLS - 2) << opt7 << CYAN << '|' << RESET << endl;
+		cout << CYAN << '|' << RESET << left << setw(NUM_COLS - 2) << opt8 << CYAN << '|' << RESET << endl;
+		cout << CYAN << '|' << RESET << left << setw(NUM_COLS - 2) << opt9 << CYAN << '|' << RESET << endl;
+		cout << CYAN << '|' << RESET << left << setw(NUM_COLS - 2) << opt0 << CYAN << '|' << RESET << endl;
+
+		cout << CYAN << '+' << right << setfill('=') << setw(NUM_COLS - 1) << '+' << setfill(' ') << RESET << endl;
+
+		cout << "      Choice (0-9): ";
+		cin >> choice;
+		cin.ignore(1000, '\n');
+
+		if (numRecords >=DBSIZE)
+		{
+			cout << "The database is full (20 books)." << endl;
+			cout << "No books can be added until a record is deleted." << endl;
+			cout << "Press ENTER to continue ..." << endl;
+			cin.ignore(1000, '\n');
+		}
+		else
+		{
+			cout << endl;
+			switch (choice)
+			{
+				case '1': // booktitle
+					cout << "Enter Book Title: ";
+					getline(cin, pendingBookTitle);
+					break;
+				case '2': // ISBN
+					cout << "Enter ISBN: ";
+					getline(cin, pendingISBN);
+					break;
+				case '3': // Author
+					cout << "Enter Author: ";
+					getline(cin, pendingAuthor);
+					break;
+				case '4': // Publisher
+					cout << "Enter Publisher: ";
+					getline(cin, pendingPublisher);
+					break;
+				case '5': // Date Added
+					cout << "Enter Date Added: ";
+					getline(cin, pendingDateAdded);
+					break;
+				case '6': // QTY on Hand
+					cout << "Enter Quantity on Hand: ";
+					cin >> pendingQtyOnHand;
+					break;
+				case '7': // Wholesale
+					cout << "Enter Wholesale Price: ";
+					cin >> pendingWholesale;
+					break;
+				case '8': // retail
+					cout << "Enter Retail Price: ";
+					cin >> pendingRetail;
+					break;
+				case '9': // save book
+					bookTitle[numRecords] = pendingBookTitle;
+	            isbn[numRecords]      = pendingISBN;
+	            author[numRecords]    = pendingAuthor;
+	            publisher[numRecords] = pendingPublisher;
+	            dateAdded[numRecords] = pendingDateAdded;
+	            qtyOnHand[numRecords] = pendingQtyOnHand;
+	            wholesale[numRecords] = pendingWholesale;
+	            retail[numRecords]    = pendingRetail;
+				case '\n': // inputted nothing
+					cout << "You entered nothing" << endl;
+					cout << "Press ENTER to continue ..." << endl;
+					cin.ignore(1000, '\n');
+				break;
+				//case '0': // exit this menu checks if it saved or not
+			}
+		}
+
+	//	cin.ignore(); // just temp for now
+	}
+	while (choice != 0);
 }
 
 void editBook()
