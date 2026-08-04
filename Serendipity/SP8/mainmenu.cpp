@@ -479,6 +479,7 @@ void addBook(string bookTitle[], string isbn[], string author[], string publishe
 		cout << "No books can be added until a record is deleted." << endl;
 		cout << "Press ENTER to continue ..." << endl;
 		cin.ignore(1000, '\n');
+		return;
 	}
 
 	// more variables
@@ -491,6 +492,8 @@ void addBook(string bookTitle[], string isbn[], string author[], string publishe
 	int pendingQtyOnHand 	= 0;
 	double pendingWholesale = 0.0;
 	double pendingRetail    = 0.0;
+	bool enteredData = false;
+	bool saveData = false;
 
 	do
 	{
@@ -557,6 +560,7 @@ void addBook(string bookTitle[], string isbn[], string author[], string publishe
 
 		cout << "      Choice (0-9): ";
 		cin >> choice;
+		cin.ignore(1000, '\n');
 
 		cout << endl;
 		switch (choice)
@@ -564,26 +568,38 @@ void addBook(string bookTitle[], string isbn[], string author[], string publishe
 			case '1': // booktitle
 				cout << "Enter Book Title: ";
 				getline(cin, pendingBookTitle);
+				enteredData = true;
+				saveData = false;
 				break;
 			case '2': // ISBN
 				cout << "Enter ISBN: ";
 				getline(cin, pendingISBN);
+				enteredData = true;
+				saveData = false;
 				break;
 			case '3': // Author
 				cout << "Enter Author: ";
 				getline(cin, pendingAuthor);
+				enteredData = true;
+				saveData = false;
 				break;
 			case '4': // Publisher
 				cout << "Enter Publisher: ";
 				getline(cin, pendingPublisher);
+				enteredData = true;
+				saveData = false;
 				break;
 			case '5': // Date Added
 				cout << "Enter Date Added: ";
 				getline(cin, pendingDateAdded);
+				enteredData = true;
+				saveData = false;
 				break;
 			case '6': // QTY on Hand
 				cout << "Enter Quantity on Hand: ";
 				cin >> pendingQtyOnHand;
+				enteredData = true;
+				saveData = false;
 					if (cin.fail() || pendingQtyOnHand < 0)
 				{
 					cin.clear();
@@ -592,11 +608,15 @@ void addBook(string bookTitle[], string isbn[], string author[], string publishe
 					cout << "Press ENTER to continue ..." << endl;
 					cin.ignore(1000, '\n');
 					pendingQtyOnHand = 0;
+					enteredData = false;
+					saveData = false;
 				}
 				break;
 			case '7': // Wholesale
 				cout << "Enter Wholesale Price: ";
 				cin >> pendingWholesale;
+				enteredData = true;
+				saveData = false;
 					if (cin.fail() || pendingWholesale < 0)
 				{
 					cin.clear();
@@ -605,11 +625,15 @@ void addBook(string bookTitle[], string isbn[], string author[], string publishe
 					cout << "Press ENTER to continue ..." << endl;
 					cin.ignore(1000, '\n');
 					pendingWholesale = 0;
+					enteredData = false;
+					saveData = false;
 				}
 				break;
 			case '8': // retail
 				cout << "Enter Retail Price: ";
 				cin >> pendingRetail;
+				enteredData = true;
+				saveData = false;
 				if (cin.fail() || pendingRetail < 0)
 				{
 					cin.clear();
@@ -618,10 +642,31 @@ void addBook(string bookTitle[], string isbn[], string author[], string publishe
 					cout << "Press ENTER to continue ..." << endl;
 					cin.ignore(1000, '\n');
 					pendingRetail = 0;
+					enteredData = false;
+					saveData = false;
 				}
 				break;
 			case '9': // save book
+			{
 				char confirm;
+				bool isEmpty = (pendingBookTitle == "EMPTY" && pendingISBN == "EMPTY" && pendingAuthor == "EMPTY" && pendingPublisher == "EMPTY" && pendingDateAdded == "EMPTY" && pendingQtyOnHand == 0 && pendingWholesale == 0.0 && pendingRetail == 0.0);
+				bool isIncomplete = (pendingBookTitle == "EMPTY" || pendingISBN == "EMPTY" || pendingAuthor == "EMPTY" || pendingPublisher == "EMPTY" || pendingDateAdded == "EMPTY" || pendingQtyOnHand == 0 || pendingWholesale == 0.0 || pendingRetail == 0.0);
+
+				if (isEmpty)
+				{
+					cout << "You are attempting to save an empty record." << endl;
+					cout << "Please enter book details first." << endl;
+					cout << "Press ENTER to continue ..." << endl;
+					cin.ignore(1000, '\n');
+					cin.get();
+
+				}
+
+				if (isIncomplete)
+				{
+					cout << "***" << EXIT_RED << "WARNING: Some fields are incomplete!" << RESET << "***" << endl;
+				}
+
 				cout << "Are you sure you want to save this book to database? (Y/N): ";
 				cin >> confirm;
 				if (confirm == 'Y' || confirm == 'y')
@@ -649,6 +694,8 @@ void addBook(string bookTitle[], string isbn[], string author[], string publishe
 					pendingRetail    = 0.0;
 
 					cout << "Book saved. The database now holds " << numRecords << " book(s)." << endl;
+					saveData = true;
+					enteredData = false;
 
 					if (numRecords >= DBSIZE)
 					{
@@ -674,12 +721,44 @@ void addBook(string bookTitle[], string isbn[], string author[], string publishe
 					}
 
 					break;
+				}
 				case '\n': // inputted nothing
 					cout << "You entered nothing" << endl;
 					cout << "Press ENTER to continue ..." << endl;
 					cin.ignore(1000, '\n');
 				break;
-				//case '0': // exit this menu checks if it saved or not
+				case '0': // exit this menu checks if it saved or not
+				{
+					if (enteredData && !saveData)
+					{
+						char confirmLeave;
+						cout << "***" << EXIT_RED << "WARNING: You have unsaved changes!" << RESET << "***" << endl;
+						cout << "Are you sure you want to exit without saving? (Y/N): ";
+						cin >> confirmLeave;
+						cin.ignore(1000, '\n');
+
+						if (confirmLeave == 'Y' || confirmLeave == 'y')
+						{
+							cout << "Returning to Inventory Menu ..." << endl;
+							cout << "Press ENTER to continue ..." << endl;
+							cin.get();
+							return;
+						}
+						else
+						{
+							choice = ' '; // resets so we stay in the loop
+							cout << "Returning to Add Book Menu ..." << endl;
+							cout << "Press ENTER to continue ..." << endl;
+							cin.get();
+							break;
+						}
+					}
+					cout << "Returning to Inventory Menu ..." << endl;
+					cout << "Press ENTER to continue ..." << endl;
+					cin.ignore(1000, '\n');
+					cin.get();
+					return;
+				}
 			}
 
 	//	cin.ignore(); // just temp for now
