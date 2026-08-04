@@ -472,6 +472,15 @@ void addBook(string bookTitle[], string isbn[], string author[], string publishe
 	cout << "Press ENTER to continue..." << endl;
 	cin.ignore(1000, '\n');
 
+	if (numRecords >=DBSIZE)
+	{
+		cout << CLEAR_SCREEN;
+		cout << "The database is full (20 books)." << endl;
+		cout << "No books can be added until a record is deleted." << endl;
+		cout << "Press ENTER to continue ..." << endl;
+		cin.ignore(1000, '\n');
+	}
+
 	// more variables
 	char choice;
 	string pendingBookTitle = "EMPTY";
@@ -548,128 +557,105 @@ void addBook(string bookTitle[], string isbn[], string author[], string publishe
 
 		cout << "      Choice (0-9): ";
 		cin >> choice;
-		cin.ignore(1000, '\n');
 
-		if (numRecords >=DBSIZE)
+		cout << endl;
+		switch (choice)
 		{
-			cout << "The database is full (20 books)." << endl;
-			cout << "No books can be added until a record is deleted." << endl;
-			cout << "Press ENTER to continue ..." << endl;
-			cin.ignore(1000, '\n');
-		}
-		else
-		{
-			cout << endl;
-			switch (choice)
-			{
-				case '1': // booktitle
-					cout << "Enter Book Title: ";
-					getline(cin, pendingBookTitle);
-					break;
-				case '2': // ISBN
-					cout << "Enter ISBN: ";
-					getline(cin, pendingISBN);
-					break;
-				case '3': // Author
-					cout << "Enter Author: ";
-					getline(cin, pendingAuthor);
-					break;
-				case '4': // Publisher
-					cout << "Enter Publisher: ";
-					getline(cin, pendingPublisher);
-					break;
-				case '5': // Date Added
-					cout << "Enter Date Added: ";
-					getline(cin, pendingDateAdded);
-					break;
-				case '6': // QTY on Hand
-					cout << "Enter Quantity on Hand: ";
-					cin >> pendingQtyOnHand;
-
+			case '1': // booktitle
+				cout << "Enter Book Title: ";
+				getline(cin, pendingBookTitle);
+				break;
+			case '2': // ISBN
+				cout << "Enter ISBN: ";
+				getline(cin, pendingISBN);
+				break;
+			case '3': // Author
+				cout << "Enter Author: ";
+				getline(cin, pendingAuthor);
+				break;
+			case '4': // Publisher
+				cout << "Enter Publisher: ";
+				getline(cin, pendingPublisher);
+				break;
+			case '5': // Date Added
+				cout << "Enter Date Added: ";
+				getline(cin, pendingDateAdded);
+				break;
+			case '6': // QTY on Hand
+				cout << "Enter Quantity on Hand: ";
+				cin >> pendingQtyOnHand;
 					if (cin.fail() || pendingQtyOnHand < 0)
-					{
-						cin.clear();
-						cin.ignore(1000, '\n');
-						cout << "Invalid input detected. Please enter a positive whole number." << endl;
-						cout << "Press ENTER to continue ..." << endl;
-						cin.ignore(1000, '\n');
-						pendingQtyOnHand = 0;
-					}
-					break;
-				case '7': // Wholesale
-					cout << "Enter Wholesale Price: ";
-					cin >> pendingWholesale;
-
+				{
+					cin.clear();
+					cin.ignore(1000, '\n');
+					cout << "Invalid input detected. Please enter a positive whole number." << endl;
+					cout << "Press ENTER to continue ..." << endl;
+					cin.ignore(1000, '\n');
+					pendingQtyOnHand = 0;
+				}
+				break;
+			case '7': // Wholesale
+				cout << "Enter Wholesale Price: ";
+				cin >> pendingWholesale;
 					if (cin.fail() || pendingWholesale < 0)
-					{
-						cin.clear();
-						cin.ignore(1000, '\n');
-						cout << "Invalid input detected. Please enter a positive price." << endl;
-						cout << "Press ENTER to continue ..." << endl;
-						cin.ignore(1000, '\n');
-						pendingWholesale = 0;
-					}
-					break;
-				case '8': // retail
-					cout << "Enter Retail Price: ";
-					cin >> pendingRetail;
-
-					if (cin.fail() || pendingRetail < 0)
-					{
-						cin.clear();
-						cin.ignore(1000, '\n');
-						cout << "Invalid input detected. Please enter a positive price." << endl;
-						cout << "Press ENTER to continue ..." << endl;
-						cin.ignore(1000, '\n');
-						pendingRetail = 0;
-					}
-					break;
-				case '9': // save book
-					if (numRecords >= DBSIZE)
-					{
-						cout << "The database is full (20 books)." << endl;
-						cout << "Returning to the Inventory Menu." << endl;
-						cout << "Press ENTER to continue ..." << endl;
-						cin.ignore(1000, '\n');
-						cin.get();
-						return;
-					}
-
-					char confirm;
-					cout << "Are you sure you want to save this book to database? (Y/N): ";
-					cin >> confirm;
-					if (confirm == 'Y' || confirm == 'y')
-					{
-						// saving all of the temp variables to actual ones
-						bookTitle[numRecords] = pendingBookTitle;
-		            isbn[numRecords]      = pendingISBN;
-		            author[numRecords]    = pendingAuthor;
-		            publisher[numRecords] = pendingPublisher;
-		            dateAdded[numRecords] = pendingDateAdded;
-		            qtyOnHand[numRecords] = pendingQtyOnHand;
-		            wholesale[numRecords] = pendingWholesale;
-		            retail[numRecords]    = pendingRetail;
+				{
+					cin.clear();
+					cin.ignore(1000, '\n');
+					cout << "Invalid input detected. Please enter a positive price." << endl;
+					cout << "Press ENTER to continue ..." << endl;
+					cin.ignore(1000, '\n');
+					pendingWholesale = 0;
+				}
+				break;
+			case '8': // retail
+				cout << "Enter Retail Price: ";
+				cin >> pendingRetail;
+				if (cin.fail() || pendingRetail < 0)
+				{
+					cin.clear();
+					cin.ignore(1000, '\n');
+					cout << "Invalid input detected. Please enter a positive price." << endl;
+					cout << "Press ENTER to continue ..." << endl;
+					cin.ignore(1000, '\n');
+					pendingRetail = 0;
+				}
+				break;
+			case '9': // save book
+				char confirm;
+				cout << "Are you sure you want to save this book to database? (Y/N): ";
+				cin >> confirm;
+				if (confirm == 'Y' || confirm == 'y')
+				{
+					// saving all of the temp variables to actual ones
+					bookTitle[numRecords] = pendingBookTitle;
+	            isbn[numRecords]      = pendingISBN;
+	            author[numRecords]    = pendingAuthor;
+	            publisher[numRecords] = pendingPublisher;
+	            dateAdded[numRecords] = pendingDateAdded;
+	            qtyOnHand[numRecords] = pendingQtyOnHand;
+	            wholesale[numRecords] = pendingWholesale;
+	            retail[numRecords]    = pendingRetail;
 
 						numRecords++; // increases numRecords
 
 						// resetting the variables
-						pendingBookTitle = "EMPTY";
-						pendingISBN      = "EMPTY";
-						pendingAuthor    = "EMPTY";
-						pendingPublisher = "EMPTY";
-						pendingDateAdded = "EMPTY";
-						pendingQtyOnHand = 0;
-						pendingWholesale = 0.0;
-						pendingRetail    = 0.0;
+					pendingBookTitle = "EMPTY";
+					pendingISBN      = "EMPTY";
+					pendingAuthor    = "EMPTY";
+					pendingPublisher = "EMPTY";
+					pendingDateAdded = "EMPTY";
+					pendingQtyOnHand = 0;
+					pendingWholesale = 0.0;
+					pendingRetail    = 0.0;
 
-						cout << "Book saved. The database now holds " << numRecords << " book(s)." << endl;
+					cout << "Book saved. The database now holds " << numRecords << " book(s)." << endl;
 
-						if (numRecords >= DBSIZE)
-						{
-							cout << "The database is now full (20 books)." << endl;
-							cout << "Returning to the Inventory Menu." << endl;
-							return;
-						}
+					if (numRecords >= DBSIZE)
+					{
+						cout << "The database is now full (20 books)." << endl;
+						cout << "Returning to the Inventory Menu." << endl;
+						return;
+					}
 					}
 
 					else if (confirm == 'N' || confirm == 'n')
@@ -695,11 +681,10 @@ void addBook(string bookTitle[], string isbn[], string author[], string publishe
 				break;
 				//case '0': // exit this menu checks if it saved or not
 			}
-		}
 
 	//	cin.ignore(); // just temp for now
 	}
-	while (choice != 0);
+	while (choice != '0');
 }
 
 void editBook()
