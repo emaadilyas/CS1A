@@ -296,7 +296,18 @@ void invMenu(string bookTitle[], string isbn[], string author[], string publishe
 				lookUpBook(bookTitle, isbn, author, publisher, dateAdded, qtyOnHand, wholesale, retail, numRecords);
 				break;
 			case '2':
+				if (numRecords >= DBSIZE)
+				{
+					cout << CLEAR_SCREEN;
+					cout << "The database is full (" << DBSIZE << " books)." << endl;
+					cout << "No books can be added until a record can be deleted." << endl;
+					cout << "Press ENTER to continue ..." << endl;
+					cin.get();
+				}
+				else
+				{
 				addBook(bookTitle, isbn, author, publisher, dateAdded, qtyOnHand, wholesale, retail, numRecords);
+				}
 				break;
 			case '3':
 				editBook();
@@ -472,16 +483,6 @@ void addBook(string bookTitle[], string isbn[], string author[], string publishe
 	cout << "Press ENTER to continue..." << endl;
 	cin.ignore(1000, '\n');
 
-	if (numRecords >=DBSIZE)
-	{
-		cout << CLEAR_SCREEN;
-		cout << "The database is full (20 books)." << endl;
-		cout << "No books can be added until a record is deleted." << endl;
-		cout << "Press ENTER to continue ..." << endl;
-		cin.ignore(1000, '\n');
-		return;
-	}
-
 	// more variables
 	char choice;
 	string pendingBookTitle = "EMPTY";
@@ -606,48 +607,61 @@ void addBook(string bookTitle[], string isbn[], string author[], string publishe
 					cin.ignore(1000, '\n');
 					cout << "Invalid input detected. Please enter a positive whole number." << endl;
 					cout << "Press ENTER to continue ..." << endl;
-					cin.ignore(1000, '\n');
+					cin.get();
 					pendingQtyOnHand = 0;
-					enteredData = false;
+				}
+				else
+				{
+					enteredData = true;
 					saveData = false;
 				}
 				break;
 			case '7': // Wholesale
 				cout << "Enter Wholesale Price: ";
 				cin >> pendingWholesale;
-				enteredData = true;
-				saveData = false;
 					if (cin.fail() || pendingWholesale < 0)
 				{
 					cin.clear();
 					cin.ignore(1000, '\n');
 					cout << "Invalid input detected. Please enter a positive price." << endl;
 					cout << "Press ENTER to continue ..." << endl;
-					cin.ignore(1000, '\n');
+					cin.get();
 					pendingWholesale = 0;
-					enteredData = false;
+				}
+				else
+				{
+					enteredData = true;
 					saveData = false;
 				}
 				break;
 			case '8': // retail
 				cout << "Enter Retail Price: ";
 				cin >> pendingRetail;
-				enteredData = true;
-				saveData = false;
 				if (cin.fail() || pendingRetail < 0)
 				{
 					cin.clear();
 					cin.ignore(1000, '\n');
 					cout << "Invalid input detected. Please enter a positive price." << endl;
 					cout << "Press ENTER to continue ..." << endl;
-					cin.ignore(1000, '\n');
+					cin.get();
 					pendingRetail = 0;
-					enteredData = false;
+				}
+				else
+				{
+					enteredData = true;
 					saveData = false;
 				}
 				break;
 			case '9': // save book
 			{
+				if (numRecords >= DBSIZE)
+				{
+					cout << "Database is full! Cannot save any more records." << endl;
+					cout << "Press ENTER to continue ..." << endl;
+					cin.get();
+					return;
+				}
+
 				char confirm;
 				bool isEmpty = (pendingBookTitle == "EMPTY" && pendingISBN == "EMPTY" && pendingAuthor == "EMPTY" && pendingPublisher == "EMPTY" && pendingDateAdded == "EMPTY" && pendingQtyOnHand == 0 && pendingWholesale == 0.0 && pendingRetail == 0.0);
 				bool isIncomplete = (pendingBookTitle == "EMPTY" || pendingISBN == "EMPTY" || pendingAuthor == "EMPTY" || pendingPublisher == "EMPTY" || pendingDateAdded == "EMPTY" || pendingQtyOnHand == 0 || pendingWholesale == 0.0 || pendingRetail == 0.0);
@@ -657,9 +671,8 @@ void addBook(string bookTitle[], string isbn[], string author[], string publishe
 					cout << "You are attempting to save an empty record." << endl;
 					cout << "Please enter book details first." << endl;
 					cout << "Press ENTER to continue ..." << endl;
-					cin.ignore(1000, '\n');
 					cin.get();
-
+					break;
 				}
 
 				if (isIncomplete)
@@ -709,14 +722,12 @@ void addBook(string bookTitle[], string isbn[], string author[], string publishe
 					{
 						cout << "Save cancelled. Returning to Add a Book menu." << endl;
 						cout << "Press ENTER to continue ..." << endl;
-						cin.ignore(1000, '\n');
 						cin.get();
 					}
 					else
 					{
 						cout << "Invalid input." << endl;
 						cout << "Press ENTER to continue ..." << endl;
-						cin.ignore(1000, '\n');
 						cin.get();
 					}
 
@@ -755,10 +766,11 @@ void addBook(string bookTitle[], string isbn[], string author[], string publishe
 					}
 					cout << "Returning to Inventory Menu ..." << endl;
 					cout << "Press ENTER to continue ..." << endl;
-					cin.ignore(1000, '\n');
 					cin.get();
 					return;
 				}
+				case 'T': // test
+					numRecords = DBSIZE;
 			}
 
 	//	cin.ignore(); // just temp for now
