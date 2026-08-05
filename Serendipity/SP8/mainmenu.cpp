@@ -167,6 +167,7 @@ void cashier() {
 
 	cout << "Enter Quantity: ";
 	cin >> quantity;
+	cin.ignore(1000, '\n');
 
 	// checking in case cin fails we dont want that
 	if (cin.fail())
@@ -477,11 +478,6 @@ void bookInfo(const string bookTitle[], const string isbn[], const string author
 
 size_t lookUpBook(const string bookTitle[], const string isbn[], const string author[], const string publisher[], const string dateAdded[], const int qtyOnHand[], const double wholesale[], const double retail[], size_t numRecords)
 {
-	if (cin.peek() == '\n')
-	{
-		cin.ignore(1000, '\n');
-	}
-
 	// variables
 	string searchTitle;
 	bool foundBook = false;
@@ -540,7 +536,6 @@ size_t lookUpBook(const string bookTitle[], const string isbn[], const string au
 				bookInfo(bookTitle, isbn, author, publisher, dateAdded, qtyOnHand, wholesale, retail, i);
 				cout << endl;
 				cout << "Press ENTER to return to Inventory Menu ...";
-				cin.ignore(1000, '\n');
 				cin.get();
 				return i;
 			}
@@ -552,7 +547,6 @@ size_t lookUpBook(const string bookTitle[], const string isbn[], const string au
 			{
 				cout << "Invalid input try again." << endl;
 				cout << "Press ENTER to return to Inventory Menu ..." << endl;
-				cin.ignore(1000, '\n');
 				cin.get();
 				return string::npos;
 			}
@@ -707,7 +701,6 @@ void addBook(string bookTitle[], string isbn[], string author[], string publishe
 				}
 				else
 				{
-					cin.ignore(1000, '\n');
 					enteredData = true;
 					saveData = false;
 				}
@@ -726,7 +719,6 @@ void addBook(string bookTitle[], string isbn[], string author[], string publishe
 				}
 				else
 				{
-					cin.ignore(1000, '\n');
 					enteredData = true;
 					saveData = false;
 				}
@@ -745,7 +737,6 @@ void addBook(string bookTitle[], string isbn[], string author[], string publishe
 				}
 				else
 				{
-					cin.ignore(1000, '\n');
 					enteredData = true;
 					saveData = false;
 				}
@@ -928,7 +919,7 @@ void repListing(const string bookTitle[], const string isbn[], const string auth
 	cout << endl;
 
 	cout << left << setw(15) << "ISBN" << setw(80) << "Title" << right << setw(6) << "Qty" << setw(10) << "Retail" << endl;
-	cout << setfill('_') << setw(NUM_COLS + 31) << "" << setfill(' ') << endl;
+	cout << setfill('_') << setw(111) << "" << setfill(' ') << endl;
 	cout << fixed << setprecision(2);
 
 	for (size_t i = 0; i < numRecords; i++)
