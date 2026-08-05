@@ -293,7 +293,18 @@ void invMenu(string bookTitle[], string isbn[], string author[], string publishe
 		switch (choice)
 		{
 			case '1':
+				if (numRecords == 0)
+				{
+					cout << CLEAR_SCREEN;
+					cout << "No records found in database." << endl;
+					cout << "Enter a record in 'Add Book' before trying to search." << endl;
+					cout << "Press ENTER to continue ..." << endl;
+					cin.get();
+				}
+				else
+				{
 				lookUpBook(bookTitle, isbn, author, publisher, dateAdded, qtyOnHand, wholesale, retail, numRecords);
+				}
 				break;
 			case '2':
 				if (numRecords >= DBSIZE)
@@ -315,11 +326,7 @@ void invMenu(string bookTitle[], string isbn[], string author[], string publishe
 			case '4':
 				deleteBook();
 				break;
-			case '5': /*
-				cout << CLEAR_SCREEN;
-				cout << ">> Returning to Main Menu..." << endl;
-				cout << "Press ENTER to continue..." << endl;
-				cin.ignore(1000, '\n'); */
+			case '5':
 				break;
 			case '\n': // if they entered nothing (pressed enter twice)
 				cout << CLEAR_SCREEN;
@@ -423,11 +430,7 @@ void reports(const string bookTitle[], const string isbn[], const string author[
 			case '6':
 				repAge();
 				break;
-			case '7': /*
-				cout << CLEAR_SCREEN;
-				cout << ">> Returning to Main Menu..." << endl;
-				cout << "Press ENTER to continue..." << endl;
-				cin.ignore(1000, '\n'); */
+			case '7':
 				break;
 			case '\n': // if they entered nothing (pressed enter twice)
 				cout << CLEAR_SCREEN;
@@ -452,14 +455,14 @@ void bookInfo(const string bookTitle[], const string isbn[], const string author
 	cout << " " << ORANGE << setw(36) << "Serendipity Booksellers" << RESET << endl;
 	cout << " " << BOLD << setw(31) << "Book Information" << RESET << endl;
 	cout << endl;
-	cout << " " << left << setw(20) << "ISBN:" << endl;
-	cout << " " << left << setw(20) << "Title:" << endl;
-	cout << " " << left << setw(20) << "Author:" << endl;
-	cout << " " << left << setw(20) << "Publisher:" << endl;
-	cout << " " << left << setw(20) << "Date Added:" << endl;
-	cout << " " << left << setw(20) << "Quantity-On-Hand:" << endl;
-	cout << " " << left << setw(20) << "Wholesale Cost:" << endl;
-	cout << " " << left << setw(20) << "Retail Price:" << endl;
+	cout << " " << left << setw(20) << "Title:" << bookTitle[index] << endl;
+	cout << " " << left << setw(20) << "ISBN:" << isbn[index] << endl;
+	cout << " " << left << setw(20) << "Author:" << author[index] << endl;
+	cout << " " << left << setw(20) << "Publisher:" << publisher[index] << endl;
+	cout << " " << left << setw(20) << "Date Added:" << dateAdded[index] << endl;
+	cout << " " << left << setw(20) << "Quantity-On-Hand:" << qtyOnHand[index] << endl;
+	cout << " " << left << setw(20) << "Wholesale Cost:" << "$" << wholesale[index] << endl;
+	cout << " " << left << setw(20) << "Retail Price:" << "$" << retail[index] << endl;
 }
 
 // ---------------------------|Function: invmenu() Stubs|--------------------------- //
@@ -471,6 +474,67 @@ size_t lookUpBook(const string bookTitle[], const string isbn[], const string au
 	cout << "Press ENTER to continue..." << endl;
 	cin.ignore(1000, '\n');
 
+	// variables
+	string searchTitle;
+	//bool foundBook = false;
+
+	// making the menu screen its not gunna be as good as addbook()
+	cout << CLEAR_SCREEN;
+	cout << "   >>> BOOK LOOK UP <<<" << endl;
+	cout << "Search: >";
+
+	if (cin.peek() == '\n')
+	{
+		cin.ignore();
+	}
+
+	getline(cin, searchTitle);
+
+	for (size_t i = 0; i < numRecords; i++)
+	{
+		if (bookTitle[i].find(searchTitle) != string::npos)
+		{
+			char matchChoice;
+			string tempBookTitle = bookTitle[i];
+			cout << endl;
+			cout << "Result>: " << bookTitle[i] << " [" << isbn[i] << "]" << endl;
+			cout << "View this book record? (Y/N): ";
+			cin >> matchChoice;
+
+			if (matchChoice == 'Y' || matchChoice == 'y')
+			{
+				cout << CLEAR_SCREEN;
+				bookInfo(bookTitle, isbn, author, publisher, dateAdded, qtyOnHand, wholesale, retail, i);
+				cout << endl;
+				cout << "Press ENTER to return to Inventory Menu ...";
+				cin.ignore(1000, '\n');
+				cin.get();
+				return i;
+			}
+			if (matchChoice == 'N' || matchChoice == 'n')
+			{
+				cout << "Searching for next match..." << endl;
+			}
+			else
+			{
+				cout << "Invalid input try again." << endl;
+			}
+		}
+		else
+		{
+			cout << CLEAR_SCREEN;
+			cout << "No search results found." << endl;
+			cout << "Press ENTER to return to Inventory Menu." << endl;
+			cin.get();
+
+			return string::npos;
+		}
+
+	}
+	cout << "End of search results." << endl;
+	cout << "Press ENTER to return to Inventory Menu." << endl;
+	cin.ignore(1000, '\n');
+	cin.get();
 
 	return string::npos;
 }
@@ -682,6 +746,8 @@ void addBook(string bookTitle[], string isbn[], string author[], string publishe
 
 				cout << "Are you sure you want to save this book to database? (Y/N): ";
 				cin >> confirm;
+				cin.ignore(1000,'\n');
+
 				if (confirm == 'Y' || confirm == 'y')
 				{
 					// saving all of the temp variables to actual ones
@@ -707,6 +773,8 @@ void addBook(string bookTitle[], string isbn[], string author[], string publishe
 					pendingRetail    = 0.0;
 
 					cout << "Book saved. The database now holds " << numRecords << " book(s)." << endl;
+					cout << "Press ENTER to continue ..." << endl;
+					cin.get();
 					saveData = true;
 					enteredData = false;
 
@@ -743,6 +811,7 @@ void addBook(string bookTitle[], string isbn[], string author[], string publishe
 					if (enteredData && !saveData)
 					{
 						char confirmLeave;
+						cout << CLEAR_SCREEN;
 						cout << "***" << EXIT_RED << "WARNING: You have unsaved changes!" << RESET << "***" << endl;
 						cout << "Are you sure you want to exit without saving? (Y/N): ";
 						cin >> confirmLeave;
@@ -750,6 +819,7 @@ void addBook(string bookTitle[], string isbn[], string author[], string publishe
 
 						if (confirmLeave == 'Y' || confirmLeave == 'y')
 						{
+							cout << CLEAR_SCREEN;
 							cout << "Returning to Inventory Menu ..." << endl;
 							cout << "Press ENTER to continue ..." << endl;
 							cin.get();
@@ -758,19 +828,39 @@ void addBook(string bookTitle[], string isbn[], string author[], string publishe
 						else
 						{
 							choice = ' '; // resets so we stay in the loop
+							cout << CLEAR_SCREEN;
 							cout << "Returning to Add Book Menu ..." << endl;
 							cout << "Press ENTER to continue ..." << endl;
 							cin.get();
 							break;
 						}
 					}
+					cout << CLEAR_SCREEN;
 					cout << "Returning to Inventory Menu ..." << endl;
 					cout << "Press ENTER to continue ..." << endl;
 					cin.get();
 					return;
 				}
 				case 'T': // test
-					numRecords = DBSIZE;
+					pendingBookTitle = "Star Wars";
+					pendingISBN      = "978-2857283";
+					pendingAuthor    = "George Lucas";
+					pendingPublisher = "LUCASFILM";
+					pendingDateAdded = "05-25-1977";
+					pendingQtyOnHand 	= 15;
+					pendingWholesale = 19.99;
+					pendingRetail    = 99.99;
+					break;
+				case 'Y': // test2
+					pendingBookTitle = "The Empire Strikes back (Star Wars)";
+					pendingISBN      = "120-2583934";
+					pendingAuthor    = "Dave FIloni";
+					pendingPublisher = "LUCASFILM";
+					pendingDateAdded = "12-11-1981";
+					pendingQtyOnHand 	= 2;
+					pendingWholesale = 29.99;
+					pendingRetail    = 129.99;
+					break;
 			}
 
 	//	cin.ignore(); // just temp for now
