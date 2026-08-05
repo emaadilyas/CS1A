@@ -464,14 +464,14 @@ void bookInfo(const string bookTitle[], const string isbn[], const string author
 	cout << " " << ORANGE << setw(36) << "Serendipity Booksellers" << RESET << endl;
 	cout << " " << BOLD << setw(31) << "Book Information" << RESET << endl;
 	cout << endl;
-	cout << " " << left << setw(20) << "Title:" << bookTitle[index] << endl;
+	cout << " " << left << setw(20) << "Book Title:" << bookTitle[index] << endl;
 	cout << " " << left << setw(20) << "ISBN:" << isbn[index] << endl;
 	cout << " " << left << setw(20) << "Author:" << author[index] << endl;
 	cout << " " << left << setw(20) << "Publisher:" << publisher[index] << endl;
 	cout << " " << left << setw(20) << "Date Added:" << dateAdded[index] << endl;
 	cout << " " << left << setw(20) << "Quantity-On-Hand:" << qtyOnHand[index] << endl;
-	cout << " " << left << setw(20) << "Wholesale Cost:" << "$" << wholesale[index] << endl;
-	cout << " " << left << setw(20) << "Retail Price:" << "$" << retail[index] << endl;
+	cout << " " << left << setw(20) << "Wholesale:" << "$" << wholesale[index] << endl;
+	cout << " " << left << setw(20) << "Retail:" << "$" << retail[index] << endl;
 }
 
 // ---------------------------|Function: invmenu() Stubs|--------------------------- //
@@ -834,62 +834,65 @@ void addBook(string bookTitle[], string isbn[], string author[], string publishe
 				{
 					if (enteredData && !saveData)
 					{
-						char confirmLeave;
-						cout << CLEAR_SCREEN;
+						char saveChangesPreLeave;
 						cout << "***" << EXIT_RED << "WARNING: You have unsaved changes!" << RESET << "***" << endl;
-						cout << "Are you sure you want to exit without saving? (Y/N): ";
-						cin >> confirmLeave;
+						cout << "Would you like to save your changes before leaving? (Y/N): ";
+						cin >> saveChangesPreLeave;
 						cin.ignore(1000, '\n');
 
-						if (confirmLeave == 'Y' || confirmLeave == 'y')
+						if (saveChangesPreLeave == 'Y' || saveChangesPreLeave == 'y')
 						{
+							// saving all of the temp variables to actual ones
+							bookTitle[numRecords] = pendingBookTitle;
+			            isbn[numRecords]      = pendingISBN;
+			            author[numRecords]    = pendingAuthor;
+			            publisher[numRecords] = pendingPublisher;
+			            dateAdded[numRecords] = pendingDateAdded;
+			            qtyOnHand[numRecords] = pendingQtyOnHand;
+			            wholesale[numRecords] = pendingWholesale;
+			            retail[numRecords]    = pendingRetail;
+
+							numRecords++; // increases numRecords
+
+							// resetting the variables
+							pendingBookTitle = "EMPTY";
+							pendingISBN      = "EMPTY";
+							pendingAuthor    = "EMPTY";
+							pendingPublisher = "EMPTY";
+							pendingDateAdded = "EMPTY";
+							pendingQtyOnHand = 0;
+							pendingWholesale = 0.0;
+							pendingRetail    = 0.0;
+
 							cout << CLEAR_SCREEN;
+							cout << "Changes saved." << endl;
 							cout << "Returning to Inventory Menu ..." << endl;
 							cout << "Press ENTER to continue ..." << endl;
 							cin.get();
 							return;
 						}
-						else
+						else if (saveChangesPreLeave == 'N' || saveChangesPreLeave == 'n')
 						{
-							choice = ' '; // resets so we stay in the loop
-							cout << CLEAR_SCREEN;
-							cout << "Returning to Add Book Menu ..." << endl;
-							cout << "Press ENTER to continue ..." << endl;
-							cin.get();
 							break;
 						}
+					else
+					{
+						cout << "Invalid option please try again." << endl;
+						cout << "Press ENTER to continue ..." << endl;
+						cin.get();
+						break;
 					}
+				}
 					cout << CLEAR_SCREEN;
 					cout << "Returning to Inventory Menu ..." << endl;
 					cout << "Press ENTER to continue ..." << endl;
 					cin.get();
 					return;
 				}
-				case 'T': // test
-					pendingBookTitle = "Star Wars";
-					pendingISBN      = "978-2857283";
-					pendingAuthor    = "George Lucas";
-					pendingPublisher = "LUCASFILM";
-					pendingDateAdded = "05-25-1977";
-					pendingQtyOnHand 	= 15;
-					pendingWholesale = 19.99;
-					pendingRetail    = 99.99;
-					break;
-				case 'Y': // test2
-					pendingBookTitle = "The Empire Strikes back (Star Wars)";
-					pendingISBN      = "120-2583934";
-					pendingAuthor    = "Dave FIloni";
-					pendingPublisher = "LUCASFILM";
-					pendingDateAdded = "12-11-1981";
-					pendingQtyOnHand 	= 2;
-					pendingWholesale = 29.99;
-					pendingRetail    = 129.99;
-					break;
 			}
 
 	//	cin.ignore(); // just temp for now
-	}
-	while (choice != '0');
+	}	while (choice != '0');
 }
 
 void editBook()
