@@ -491,7 +491,7 @@ size_t lookUpBook(const string bookTitle[], const string isbn[], const string au
 
 	if (searchTitle.empty())
 	{
-		cout << CLEAR_SCREEN;
+		cout << endl;
 		cout << "No search was entered." << endl;
 		cout << "Press ENTER to return to Inventory Menu..." << endl;
 		cin.get();
@@ -536,6 +536,7 @@ size_t lookUpBook(const string bookTitle[], const string isbn[], const string au
 				bookInfo(bookTitle, isbn, author, publisher, dateAdded, qtyOnHand, wholesale, retail, i);
 				cout << endl;
 				cout << "Press ENTER to return to Inventory Menu ...";
+				cin.ignore(1000, '\n');
 				cin.get();
 				return i;
 			}
@@ -554,7 +555,7 @@ size_t lookUpBook(const string bookTitle[], const string isbn[], const string au
 	}
 	if (!foundBook)
 	{
-		cout << CLEAR_SCREEN;
+		cout << endl;
 		cout << "No matching search results found." << endl;
 		cout << "Press ENTER to return to Inventory Menu." << endl;
 		cin.get();
@@ -688,9 +689,7 @@ void addBook(string bookTitle[], string isbn[], string author[], string publishe
 			case '6': // QTY on Hand
 				cout << "Enter Quantity on Hand: ";
 				cin >> pendingQtyOnHand;
-				enteredData = true;
-				saveData = false;
-					if (cin.fail() || pendingQtyOnHand < 0)
+				if (cin.fail() || pendingQtyOnHand < 0)
 				{
 					cin.clear();
 					cin.ignore(1000, '\n');
@@ -708,7 +707,7 @@ void addBook(string bookTitle[], string isbn[], string author[], string publishe
 			case '7': // Wholesale
 				cout << "Enter Wholesale Price: ";
 				cin >> pendingWholesale;
-					if (cin.fail() || pendingWholesale < 0)
+				if (cin.fail() || pendingWholesale < 0)
 				{
 					cin.clear();
 					cin.ignore(1000, '\n');
