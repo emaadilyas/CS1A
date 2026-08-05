@@ -20,6 +20,7 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
+#include <cctype>
 #include <sstream> // this is literally used for like one thing
 using namespace std;
 
