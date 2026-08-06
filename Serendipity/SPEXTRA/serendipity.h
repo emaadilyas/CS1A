@@ -103,7 +103,7 @@ void invMenu(string bookTitle[], string isbn[], string author[], string publishe
 		Returns: nothing (void)
 		Side Effects: clears screen and prints you selected Delete a Book.
 	*/
-	void deleteBook(); // prototype for delete book
+	void deleteBook(string[], string[], string[], string[], string[], int[], double[], double[], size_t&); // prototype for delete book
 
 	/* Function: bookInfo
 		Purpose:  Displays Book Information, with labelled feilds

@@ -337,7 +337,19 @@ void invMenu(string bookTitle[], string isbn[], string author[], string publishe
 				}
 				break;
 			case '4':
-				deleteBook();
+				if (numRecords == 0)
+				{
+					cout << CLEAR_SCREEN;
+					cout << "There is no record to edit." << endl;
+					cout << "Returning to Inventory Menu ..." << endl;
+					cout << "Press ENTER to continue ..." << endl;
+					cin.get();
+					return;
+					}
+				else
+				{
+					deleteBook(bookTitle, isbn, author, publisher, dateAdded, qtyOnHand, wholesale, retail, numRecords);
+				}
 				break;
 			case '5':
 				break;
@@ -1234,12 +1246,141 @@ void editBook(string bookTitle[], string isbn[], string author[], string publish
 	}	while (choice != '0');
 }
 
-void deleteBook()
+void deleteBook(string bookTitle[], string isbn[], string author[], string publisher[], string dateAdded[], int qtyOnHand[], double wholesale[], double retail[], size_t &numRecords)
 {
-	cout << CLEAR_SCREEN;
+	/*cout << CLEAR_SCREEN;
 	cout << "You selected Delete Book" << endl;
 	cout << "Press ENTER to continue..." << endl;
-	cin.ignore(1000, '\n');
+	cin.ignore(1000, '\n');*/
+
+	size_t deleteChoice;
+	char confirm;
+	char repeatChoice;
+
+	// actual function
+	do
+	{	
+		cout << CLEAR_SCREEN;
+		cout << "     Serendipity Booksellers" << endl;
+		cout << "     Delete Book" << endl;
+		cout << endl;
+
+		cout << left << setw(16) << "Record #" << setw(15) << "ISBN" << setw(80) << "Title" << endl;
+		cout << setfill('_') << setw(111) << "" << setfill(' ') << endl;
+		cout << fixed << setprecision(2);
+
+		for (size_t i = 0; i < numRecords; i++)
+		{ // 6 and 24 normalyl
+			cout << left << setw(16) << (i + 1) << setw(15) << isbn[i] << setw(80) << bookTitle[i] << endl;
+		}
+
+		cout << endl;
+		cout << "     Select the record you wish to delete. ";
+		cin >> deleteChoice;
+
+if (cin.fail())
+		{
+			cin.clear();
+			cin.ignore(1000, '\n');
+			cout << endl;
+			cout << "Invalid input. Try again." << endl;
+			cout << "Returning to Inventory Menu..." << endl;
+			cout << "Press ENTER to continue..." << endl;
+			cin.get();
+			return;
+		}
+
+		cout << "You wish to delete record '" << deleteChoice << "'. Is the correct? (Y/N) ";
+		cin >> confirm;
+
+		if (cin.fail())
+		{
+			cin.clear();
+			cin.ignore(1000, '\n');
+		
+			cout << endl;
+			cout << "Invalid input. Try again." << endl;
+			cout << "Returning to Inventory Menu..." << endl;
+			cout << "Press ENTER to continue..." << endl;
+			cin.get();
+			return;
+		}
+		if (confirm == 'Y' || confirm == 'y')
+		{
+			size_t index = deleteChoice - 1;
+
+			for (size_t i = index; i < numRecords - 1; i++)
+            {
+                bookTitle[i] = bookTitle[i + 1];
+                isbn[i]      = isbn[i + 1];
+                author[i]    = author[i + 1];
+                publisher[i] = publisher[i + 1];
+                dateAdded[i] = dateAdded[i + 1];
+                qtyOnHand[i] = qtyOnHand[i + 1];
+                wholesale[i] = wholesale[i + 1];
+                retail[i]    = retail[i + 1];
+            }
+
+			numRecords--;
+			cout << "It was as if it was never there." << endl;
+		}
+		else if (confirm == 'N' || confirm == 'n')
+		{
+			cout << "It lives to see another day." << endl;
+			cout << endl;
+			cout << "Returning to Inventory Menu..." << endl;
+			cout << "Press ENTER to continue..." << endl;
+			cin.ignore(1000, '\n');
+			cin.get();
+			return;
+		}
+		else
+		{
+			cout << endl;
+			cout << "Invalid Input." << endl;
+			cout << "Returning to Inventory Menu..." << endl;
+			cout << "Press ENTER to return to Reports Menu ..." << endl;
+			cin.ignore(1000, '\n');
+			cin.get();	
+			return;		
+		}
+		if (cin.fail())
+		{
+			cin.clear();
+			cin.ignore(1000, '\n');
+			cout << endl;
+			cout << "Invalid input. Try again." << endl;
+			cout << "Returning to Inventory Menu..." << endl;
+			cout << "Press ENTER to continue..." << endl;
+			cin.get();
+			return;
+		}
+
+		if (numRecords > 0)
+		{
+			cout << "Would you like to delete another record? (Y/N) ";
+			cin >> repeatChoice;
+			cout << endl;
+		}		
+	} while (repeatChoice == 'Y' || repeatChoice == 'y');
+	
+	if (repeatChoice == 'N' || repeatChoice == 'n')
+	{
+		cout << endl;
+		cout << "Exiting Delete Book." << endl;
+		cout << "Press ENTER to return to Reports Menu ..." << endl;
+		cin.ignore(1000, '\n');
+		cin.get();
+	}
+	else
+	{
+		cout << endl;
+		cout << "Invalid Input." << endl;
+		cout << "Returning to Inventory Menu..." << endl;
+		cout << "Press ENTER to return to Reports Menu ..." << endl;
+		cin.ignore(1000, '\n');
+		cin.get();
+	}
 }
 
 // ---------------------------|Function: reports() Stubs|--------------------------- //
