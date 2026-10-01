@@ -1501,7 +1501,6 @@ cout << CLEAR_SCREEN;
 		totalQty += qtyOnHand[i];
 	}
 
-	// I want to sort by quantity, but I don't want to change the original arrays. So I will create a vector of indices and sort that based on the quantity.
 	vector<size_t> indices(numRecords);
 	for (size_t i = 0; i < numRecords; i++) {
 		indices[i] = i;
@@ -1546,7 +1545,6 @@ void repCost(const string bookTitle[], const string isbn[], const string author[
 	cout << setfill('_') << setw(111) << "" << setfill(' ') << endl;
 	cout << fixed << setprecision(2);
 
-	// I want to sort by wholesale price, but I don't want to change the original arrays. So I will create a vector of indices and sort that based on the wholesale prices.
 	vector<size_t> indices(numRecords);
 	for (size_t i = 0; i < numRecords; i++) {
 		indices[i] = i;
@@ -1605,7 +1603,6 @@ void repAge(const string bookTitle[], const string isbn[], const string author[]
            + stoi(dateAdded[i].substr(3, 2));          // day, 2 chars from position 3
 	}
 
-	// i want to sort datakey, but I don't want to change the original arrays. So I will create a vector of indices and sort that based on the dataKey.
 	vector<size_t> indices(numRecords);
 	for (size_t i = 0; i < numRecords; i++) {
 		indices[i] = i;
