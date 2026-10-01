@@ -22,6 +22,8 @@
 #include <string>
 #include <cctype>
 #include <sstream> // this is literally used for like one thing
+#include <algorithm> 
+#include <vector>
 using namespace std;
 
 // named constants
@@ -144,7 +146,7 @@ void reports(const string bookTitle[], const string isbn[], const string author[
 		Returns: nothing (void)
 		Side Effects: clears screen and prints you selected Inventory Wholesale Value.
 	*/
-	void repWholesale(); // prototype for rep wholesale
+	void repWholesale(const string bookTitle[], const string isbn[], const string author[], const string publisher[], const string dateAdded[], const int qtyOnHand[], const double wholesale[], const double retail[], size_t numRecords); // prototype for rep wholesale
 
 	/* Function: repRetail
 		Purpose:  Used for the retail feature
@@ -152,7 +154,7 @@ void reports(const string bookTitle[], const string isbn[], const string author[
 		Returns: nothing (void)
 		Side Effects: clears screen and prints you selected Inventory Retail Value.
 	*/
-	void repRetail(); // prototype for rep retail
+	void repRetail(const string bookTitle[], const string isbn[], const string author[], const string publisher[], const string dateAdded[], const int qtyOnHand[], const double wholesale[], const double retail[], size_t numRecords); // prototype for rep retail
 
 	/* Function: repQty
 		Purpose:  Used for the listing quantity feature
@@ -160,7 +162,7 @@ void reports(const string bookTitle[], const string isbn[], const string author[
 		Returns: nothing (void)
 		Side Effects: clears screen and prints you selected Listing by Quantity.
 	*/
-	void repQty(); // prototype for rep quantity
+	void repQty(const string bookTitle[], const string isbn[], const string author[], const string publisher[], const string dateAdded[], const int qtyOnHand[], const double wholesale[], const double retail[], size_t numRecords); // prototype for rep quantity
 
 	/* Function: repCost
 		Purpose:  Used for the listing cost feature
@@ -168,7 +170,7 @@ void reports(const string bookTitle[], const string isbn[], const string author[
 		Returns: nothing (void)
 		Side Effects: clears screen and prints you selected Listing by Cost.
 	*/
-	void repCost(); // prototype for rep costs
+	void repCost(const string bookTitle[], const string isbn[], const string author[], const string publisher[], const string dateAdded[], const int qtyOnHand[], const double wholesale[], const double retail[], size_t numRecords); // prototype for rep costs
 
 	/* Function: repAge
 		Purpose:  Used for the listing age feature
@@ -176,7 +178,7 @@ void reports(const string bookTitle[], const string isbn[], const string author[
 		Returns: nothing (void)
 		Side Effects: clears screen and prints you selected Listing by Age.
 	*/
-	void repAge(); // prototype for rep age
+	void repAge(const string bookTitle[], const string isbn[], const string author[], const string publisher[], const string dateAdded[], const int qtyOnHand[], const double wholesale[], const double retail[], size_t numRecords); // prototype for rep age
 
 
 #endif // THE END GAURD

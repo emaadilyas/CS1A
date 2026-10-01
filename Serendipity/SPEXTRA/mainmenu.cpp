@@ -449,19 +449,19 @@ void reports(const string bookTitle[], const string isbn[], const string author[
 				repListing(bookTitle, isbn, author, publisher, dateAdded, qtyOnHand, wholesale, retail, numRecords);
 				break;
 			case '2':
-				repWholesale();
+				repWholesale(bookTitle, isbn, author, publisher, dateAdded, qtyOnHand, wholesale, retail, numRecords);
 				break;
 			case '3':
-				repRetail();
+				repRetail(bookTitle, isbn, author, publisher, dateAdded, qtyOnHand, wholesale, retail, numRecords);
 				break;
 			case '4':
-				repQty();
+				repQty(bookTitle, isbn, author, publisher, dateAdded, qtyOnHand, wholesale, retail, numRecords);
 				break;
 			case '5':
-				repCost();
+				repCost(bookTitle, isbn, author, publisher, dateAdded, qtyOnHand, wholesale, retail, numRecords);
 				break;
 			case '6':
-				repAge();
+				repAge(bookTitle, isbn, author, publisher, dateAdded, qtyOnHand, wholesale, retail, numRecords);
 				break;
 			case '7':
 				break;
@@ -799,17 +799,17 @@ void addBook(string bookTitle[], string isbn[], string author[], string publishe
 				{
 					// saving all of the temp variables to actual ones
 					bookTitle[numRecords] = pendingBookTitle;
-	            isbn[numRecords]      = pendingISBN;
-	            author[numRecords]    = pendingAuthor;
-	            publisher[numRecords] = pendingPublisher;
-	            dateAdded[numRecords] = pendingDateAdded;
-	            qtyOnHand[numRecords] = pendingQtyOnHand;
-	            wholesale[numRecords] = pendingWholesale;
-	            retail[numRecords]    = pendingRetail;
+					isbn[numRecords]      = pendingISBN;
+					author[numRecords]    = pendingAuthor;
+					publisher[numRecords] = pendingPublisher;
+					dateAdded[numRecords] = pendingDateAdded;
+					qtyOnHand[numRecords] = pendingQtyOnHand;
+					wholesale[numRecords] = pendingWholesale;
+					retail[numRecords]    = pendingRetail;
 
-						numRecords++; // increases numRecords
+					numRecords++; // increases numRecords
 
-						// resetting the variables
+					// resetting the variables
 					pendingBookTitle = "EMPTY";
 					pendingISBN      = "EMPTY";
 					pendingAuthor    = "EMPTY";
@@ -1104,14 +1104,6 @@ void editBook(string bookTitle[], string isbn[], string author[], string publish
 				break;
 			case '9': // save book
 			{
-				/*if (numRecords >= DBSIZE)
-				{
-					cout << "Database is full! Cannot save any more records." << endl;
-					cout << "Press ENTER to continue ..." << endl;
-					cin.get();
-					return;
-				}*/
-
 				char confirm;
 				bool isEmpty = (pendingBookTitle == "EMPTY" && pendingISBN == "EMPTY" && pendingAuthor == "EMPTY" && pendingPublisher == "EMPTY" && pendingDateAdded == "EMPTY" && pendingQtyOnHand == 0 && pendingWholesale == 0.0 && pendingRetail == 0.0);
 				bool isIncomplete = (pendingBookTitle == "EMPTY" || pendingISBN == "EMPTY" || pendingAuthor == "EMPTY" || pendingPublisher == "EMPTY" || pendingDateAdded == "EMPTY" || pendingQtyOnHand == 0 || pendingWholesale == 0.0 || pendingRetail == 0.0);
@@ -1248,11 +1240,7 @@ void editBook(string bookTitle[], string isbn[], string author[], string publish
 
 void deleteBook(string bookTitle[], string isbn[], string author[], string publisher[], string dateAdded[], int qtyOnHand[], double wholesale[], double retail[], size_t &numRecords)
 {
-	/*cout << CLEAR_SCREEN;
-	cout << "You selected Delete Book" << endl;
-	cout << "Press ENTER to continue..." << endl;
-	cin.ignore(1000, '\n');*/
-
+	
 	size_t deleteChoice;
 	char confirm;
 	char repeatChoice;
@@ -1389,6 +1377,14 @@ void repListing(const string bookTitle[], const string isbn[], const string auth
 {
 	// actual function
 	cout << CLEAR_SCREEN;
+
+	if (numRecords == 0) {
+		cout << "There is no records to list." << endl;
+		cout << "Press ENTER to return to menu screen." << endl;
+		cin.get();
+		return;
+	}
+
 	cout << "     Serendipity Booksellers" << endl;
 	cout << "     Inventory Listing" << endl;
 	cout << endl;
@@ -1403,48 +1399,233 @@ void repListing(const string bookTitle[], const string isbn[], const string auth
 	}
 
 	cout << endl;
+	cout << "     " << numRecords << " record(s) in inventory." << endl;
+	cout << endl;
+	cout << "Press ENTER to return to Reports Menu ..." << endl;
+	cin.get();
+}
+
+void repWholesale(const string bookTitle[], const string isbn[], const string author[], const string publisher[], const string dateAdded[], const int qtyOnHand[], const double wholesale[], const double retail[], size_t numRecords)
+{
+	cout << CLEAR_SCREEN;
+	
+	if (numRecords == 0) {
+		cout << "There is no records to list." << endl;
+		cout << "Press ENTER to return to menu screen." << endl;
+		cin.get();
+		return;
+	}
+
+	cout << "     Serendipity Booksellers" << endl;
+	cout << "     Inventory Wholesale" << endl;
+	cout << endl;
+
+	cout << left << setw(15) << "ISBN" << setw(80) << "Title" << right << setw(6) << "Qty" << setw(10) << "Wholesale" << endl;
+	cout << setfill('_') << setw(111) << "" << setfill(' ') << endl;
+	cout << fixed << setprecision(2);
+
+	double totalWholesale = 0;
+	for (size_t i = 0; i < numRecords; i++) {
+		totalWholesale += qtyOnHand[i] * wholesale[i];
+	}
+
+	for (size_t i = 0; i < numRecords; i++)
+	{ // 6 and 24 normalyl
+		cout << left << setw(15) << isbn[i] << setw(80) << bookTitle[i] << right << setw(6) << qtyOnHand[i] << setw(10) << wholesale[i] << endl;
+	}
+
+	cout << endl;
+	cout << "     Total Wholesale Value: $" << totalWholesale << endl;
+	cout << endl;
+	cout << "Press ENTER to return to Reports Menu ..." << endl;
+	cin.get();
+}
+
+void repRetail(const string bookTitle[], const string isbn[], const string author[], const string publisher[], const string dateAdded[], const int qtyOnHand[], const double wholesale[], const double retail[], size_t numRecords)
+{
+	cout << CLEAR_SCREEN;
+	
+	if (numRecords == 0) {
+		cout << "There is no records to list." << endl;
+		cout << "Press ENTER to return to menu screen." << endl;
+		cin.get();
+		return;
+	}
+
+	cout << "     Serendipity Booksellers" << endl;
+	cout << "     Inventory Retail" << endl;
+	cout << endl;
+
+	cout << left << setw(15) << "ISBN" << setw(80) << "Title" << right << setw(6) << "Qty" << setw(10) << "Retail" << endl;
+	cout << setfill('_') << setw(111) << "" << setfill(' ') << endl;
+	cout << fixed << setprecision(2);
+
+	double totalRetail = 0;
+	for (size_t i = 0; i < numRecords; i++) {
+		totalRetail += qtyOnHand[i] * retail[i];
+	}
+
+	for (size_t i = 0; i < numRecords; i++)
+	{ // 6 and 24 normalyl
+		cout << left << setw(15) << isbn[i] << setw(80) << bookTitle[i] << right << setw(6) << qtyOnHand[i] << setw(10) << retail[i] << endl;
+	}
+
+	cout << endl;
+	cout << "     Total Retail Value: $" << totalRetail << endl;
+	cout << endl;
+	cout << "Press ENTER to return to Reports Menu ..." << endl;
+	cin.get();
+}
+
+void repQty(const string bookTitle[], const string isbn[], const string author[], const string publisher[], const string dateAdded[], const int qtyOnHand[], const double wholesale[], const double retail[], size_t numRecords)
+{
+cout << CLEAR_SCREEN;
+	
+	if (numRecords == 0) {
+		cout << "There is no records to list." << endl;
+		cout << "Press ENTER to return to menu screen." << endl;
+		cin.get();
+		return;
+	}
+
+	cout << "     Serendipity Booksellers" << endl;
+	cout << "     Inventory by Quantity" << endl;
+	cout << endl;
+
+	cout << left << setw(15) << "ISBN" << setw(80) << "Title" << right << setw(6) << "Qty" << setw(10) << "Cost" << endl;
+	cout << setfill('_') << setw(111) << "" << setfill(' ') << endl;
+	cout << fixed << setprecision(2);
+
+	int totalQty = 0;
+	for (size_t i = 0; i < numRecords; i++) {
+		totalQty += qtyOnHand[i];
+	}
+
+	// I want to sort by quantity, but I don't want to change the original arrays. So I will create a vector of indices and sort that based on the quantity.
+	vector<size_t> indices(numRecords);
+	for (size_t i = 0; i < numRecords; i++) {
+		indices[i] = i;
+	}
+
+	// Sort the indices based on quantity
+	sort(indices.begin(), indices.end(), [&qtyOnHand](size_t a, size_t b) {
+		return qtyOnHand[a] < qtyOnHand[b];
+	});
+
+	// Display the sorted inventory
+	for (size_t i = 0; i < numRecords; i++) {
+		size_t idx = indices[i];
+		cout << left << setw(15) << isbn[idx] << setw(80) << bookTitle[idx] << right << setw(6) << qtyOnHand[idx] << setw(10) << wholesale[idx] << endl;
+	}
+
+	//ending
+	cout << endl;
+	cout << "     " << totalQty << " book(s) in inventory." << endl;
+	cout << endl;
+	cout << "Press ENTER to return to Reports Menu ..." << endl;
+	cin.get();
+
+}
+
+void repCost(const string bookTitle[], const string isbn[], const string author[], const string publisher[], const string dateAdded[], const int qtyOnHand[], const double wholesale[], const double retail[], size_t numRecords)
+{
+	cout << CLEAR_SCREEN;
+	
+	if (numRecords == 0) {
+		cout << "There is no records to list." << endl;
+		cout << "Press ENTER to return to menu screen." << endl;
+		cin.get();
+		return;
+	}
+
+	cout << "     Serendipity Booksellers" << endl;
+	cout << "     Inventory by Cost" << endl;
+	cout << endl;
+
+	cout << left << setw(15) << "ISBN" << setw(80) << "Title" << right << setw(6) << "Qty" << setw(10) << "Cost" << endl;
+	cout << setfill('_') << setw(111) << "" << setfill(' ') << endl;
+	cout << fixed << setprecision(2);
+
+	// I want to sort by wholesale price, but I don't want to change the original arrays. So I will create a vector of indices and sort that based on the wholesale prices.
+	vector<size_t> indices(numRecords);
+	for (size_t i = 0; i < numRecords; i++) {
+		indices[i] = i;
+	}
+
+	// Sort the indices based on wholesale prices
+	sort(indices.begin(), indices.end(), [&wholesale](size_t a, size_t b) {
+		return wholesale[a] < wholesale[b];
+	});
+
+	// Display the sorted inventory
+	for (size_t i = 0; i < numRecords; i++) {
+		size_t idx = indices[i];
+		cout << left << setw(15) << isbn[idx] << setw(80) << bookTitle[idx] << right << setw(6) << qtyOnHand[idx] << setw(10) << wholesale[idx] << endl;
+	}
+
+	//ending
+	cout << endl;
 	cout << "     " << numRecords << " book(s) in inventory." << endl;
 	cout << endl;
 	cout << "Press ENTER to return to Reports Menu ..." << endl;
 	cin.get();
 }
 
-void repWholesale()
+void repAge(const string bookTitle[], const string isbn[], const string author[], const string publisher[], const string dateAdded[], const int qtyOnHand[], const double wholesale[], const double retail[], size_t numRecords)
 {
 	cout << CLEAR_SCREEN;
-	cout << "You selected Inventory Wholesale Value" << endl;
-	cout << "Press ENTER to continue..." << endl;
-	cin.ignore(1000, '\n');
-}
+		if (numRecords == 0) {
+		cout << "There is no records to list." << endl;
+		cout << "Press ENTER to return to menu screen." << endl;
+		cin.get();
+		return;
+	}
 
-void repRetail()
-{
-	cout << CLEAR_SCREEN;
-	cout << "You selected Inventory Retail Value" << endl;
-	cout << "Press ENTER to continue..." << endl;
-	cin.ignore(1000, '\n');
-}
+	for (size_t i = 0; i < numRecords; i++) {
+		if (dateAdded[i].length() != 10 || dateAdded[i][2] != '-' || dateAdded[i][5] != '-') {
+			cout << "Invalid date format detected in record " << (i + 1) << ". Expected MM-DD-YYYY." << endl;
+			cout << "Press ENTER to return to Reports Menu ..." << endl;
+			cin.get();
+			return;
+		}
+	}
 
-void repQty()
-{
-	cout << CLEAR_SCREEN;
-	cout << "You selected Listing By Quantity" << endl;
-	cout << "Press ENTER to continue..." << endl;
-	cin.ignore(1000, '\n');
-}
+	cout << "     Serendipity Booksellers" << endl;
+	cout << "     Inventory by Cost" << endl;
+	cout << endl;
 
-void repCost()
-{
-	cout << CLEAR_SCREEN;
-	cout << "You selected Listing By Cost" << endl;
-	cout << "Press ENTER to continue..." << endl;
-	cin.ignore(1000, '\n');
-}
+	cout << left << setw(15) << "ISBN" << setw(80) << "Title" << setw(18) << "Date Added" << endl;
+	cout << setfill('_') << setw(105) << "" << setfill(' ') << endl;
+	cout << fixed << setprecision(2);
 
-void repAge()
-{
-	cout << CLEAR_SCREEN;
-	cout << "You selected Listing By Age" << endl;
-	cout << "Press ENTER to continue..." << endl;
-	cin.ignore(1000, '\n');
+	int dataKey[DBSIZE];
+	for (size_t i = 0; i < numRecords; i++) {
+		dataKey[i] = stoi(dateAdded[i].substr(6, 4)) * 10000   // year, 4 chars from position 6
+           + stoi(dateAdded[i].substr(0, 2)) * 100     // month, 2 chars from position 0
+           + stoi(dateAdded[i].substr(3, 2));          // day, 2 chars from position 3
+	}
+
+	// i want to sort datakey, but I don't want to change the original arrays. So I will create a vector of indices and sort that based on the dataKey.
+	vector<size_t> indices(numRecords);
+	for (size_t i = 0; i < numRecords; i++) {
+		indices[i] = i;
+	}
+
+	// Sort the indices based on the dataKey
+	sort(indices.begin(), indices.end(), [&dataKey](size_t a, size_t b) {
+		return dataKey[a] < dataKey[b];
+	});
+
+	// Display the sorted inventory
+	for (size_t i = 0; i < numRecords; i++) {
+		size_t idx = indices[i];
+		cout << left << setw(15) << isbn[idx] << setw(80) << bookTitle[idx] << setw(18) << dateAdded[idx] << endl;
+	}
+
+	//ending
+	cout << endl;
+	cout << "     " << numRecords << " book(s) in inventory." << endl;
+	cout << endl;
+	cout << "Press ENTER to return to Reports Menu ..." << endl;
+	cin.get();
 }
